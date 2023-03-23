@@ -10,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView index(){
-        ModelAndView mv = new ModelAndView("login/login");
+        ModelAndView mv = new ModelAndView("login/indexLogin");
         return mv;
     }
 }
