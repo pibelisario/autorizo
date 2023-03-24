@@ -2,7 +2,6 @@ package caixa.beneficente.autorizo.controllers;
 
 
 import caixa.beneficente.autorizo.models.Associado;
-import caixa.beneficente.autorizo.services.AssociadoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,11 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
-public class associadoController {
+public class AssociadoController {
 
-    AssociadoService associadoService;
+    caixa.beneficente.autorizo.services.associadoService associadoService;
 
-    public associadoController(AssociadoService associadoService) {
+    public AssociadoController(caixa.beneficente.autorizo.services.associadoService associadoService) {
         this.associadoService = associadoService;
     }
 
