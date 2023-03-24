@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autorizo - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section class="vh-100" style="background-color: #042e7b;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div>
+                <div class="card row shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-left">
+                        <div class="row">
+                            <div class="alert alert-danger" th:text="${mensagem}"
+                                 th:if="${not #strings.isEmpty(mensagem)}">
+                            </div>
+                            <!-- BUSCA POR RG -->
+                            <form action="buscarRg" method="post" id="buscarPorRg" class="col s3">
+                                <label for="rg">Buscar Rg: </label>
+                                <input class="form-control" type="text"  id="rg" name="rg" required placeholder="Digite rg sem pontos" autofocus="autofocus">
+                                <button type="submit" class="btn btn-primary btnn">Buscar</button>
+                            </form>
+                            <!-- BUSCA POR NOME -->
+                            <form action="buscarNome" method="post" id="buscarPorNome" class="col s3">
+                                <label for="nome">Buscar Nome: </label>
+                                <input class="form-control" type="text"  id="nome" name="nome" required autofocus="autofocus">
+                                <button type="submit" class="btn btn-primary btnn">Buscar</button>
+                            </form>
+                            <!-- BUSCA POR CPF -->
+                            <form action="buscarCpf" method="post" id="buscarPorCpf" class="col s3">
+                                <label for="cpf">Buscar Cpf: </label>
+                                <input class="form-control" type="text"  id="cpf" name="cpf" onkeyup="mascaraCpf('___.___.___-__', this)" required placeholder="Digite cpf sem pontos" autofocus="autofocus">
+                                <button type="submit" class="btn btn-primary btnn">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<table  class="table table-hover" th:if="${not #strings.isEmpty(cadastros)}">
+    <thead>
+    <tr>
+        <th>Rg:</th>
+        <th>Nome:</th>
+        <th>Cpf:</th>
+        <th>Situação:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="associado : ${associados}">
+        <td th:text="${associado.rg}"></td>
+        <td th:text="${associado.nome}"></td>
+        <td th:text="${associado.cpf}"></td>
+        <td th:text="${associado.Situação}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>
