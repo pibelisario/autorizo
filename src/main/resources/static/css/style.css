@@ -17,3 +17,17 @@
 .btn {
     margin-top: 15px;
 }
+
+.label{
+    font-weight: bolder;
+}
+
+.liberado{
+    color: blue;
+    font-weight: bold;
+}
+
+.bloqueado{
+    color: red;
+    font-weight: bold;
+}
