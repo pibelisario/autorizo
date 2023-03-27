@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class associadoService {
+public class AssociadoService {
 
     AssociadoRepository associadoRepository;
 
-    public associadoService(AssociadoRepository associadoRepository) {
+    public AssociadoService(AssociadoRepository associadoRepository) {
         this.associadoRepository = associadoRepository;
     }
 

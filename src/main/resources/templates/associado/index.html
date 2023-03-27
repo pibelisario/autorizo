@@ -10,6 +10,25 @@
     <script src="/js/main.js"></script>
 </head>
 <body>
+<!-- Cabeçalho -->
+<header>
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #000152">
+        <div class="container-fluid">
+                <img src="/img/logo01.jpg" width="100px">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <form action="logout" method="post">
+                    <button type="submit" class="btn btn-danger" style="width: 50px; height: 50px;">Sair</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- Seção -->
 <section class="vh-100" style="background-color: #042e7b;">
     <!--Tela de busca-->
     <div class="container py-5 h-100">
@@ -25,12 +44,12 @@
 <!--                            <button type="submit" class="btn btn-primary btnn">Buscar</button>-->
 <!--                        </form>-->
                         <!-- BUSCA POR NOME -->
-                        <form action="buscarNome" method="post" id="buscarPorNome" class="col s3">
-                            <label class="label" for="nome">Buscar Nome: </label>
-                            <input class="form-control" type="text" id="nome" name="nome" required
-                                   autofocus="autofocus">
-                            <button type="submit" class="btn btn-primary btnn">Buscar</button>
-                        </form>
+<!--                        <form action="buscarNome" method="post" id="buscarPorNome" class="col s3">-->
+<!--                            <label class="label" for="nome">Buscar Nome: </label>-->
+<!--                            <input class="form-control" type="text" id="nome" name="nome" required-->
+<!--                                   autofocus="autofocus">-->
+<!--                            <button type="submit" class="btn btn-primary btnn">Buscar</button>-->
+<!--                        </form>-->
                         <!-- BUSCA POR CPF -->
                         <form action="buscarCpf" method="post" id="buscarPorCpf" class="col s3">
                             <label class="label" for="cpf">Buscar Cpf: </label>
@@ -62,8 +81,8 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th>Rg:</th>
                                             <th>Nome:</th>
+                                            <th>Cpf:</th>
 <!--                                            <th>Cpf:</th>-->
                                             <th>Situação:</th>
                                         </tr>
@@ -76,6 +95,7 @@
                                             <td>
                                                 <span th:text="${associado.situacao}"
                                                       th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
+
                                                 </span>
                                             </td>
                                         </tr>
