@@ -21,5 +21,6 @@ public class Associado {
     private String rg;
     private String nome;
     private String cpf;
+    private String cidade;
     private String situacao;
 }

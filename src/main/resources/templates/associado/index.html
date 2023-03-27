@@ -83,7 +83,7 @@
                                         <tr>
                                             <th>Nome:</th>
                                             <th>Cpf:</th>
-<!--                                            <th>Cpf:</th>-->
+                                            <th>Cidade:</th>
                                             <th>Situação:</th>
                                         </tr>
                                         </thead>
@@ -92,6 +92,7 @@
 <!--                                            <td th:text="${associado.rg}"></td>-->
                                             <td th:text="${associado.nome}"></td>
                                             <td th:text="${associado.cpf}"></td>
+                                            <td th:text="${associado.cidade}"></td>
                                             <td>
                                                 <span th:text="${associado.situacao}"
                                                       th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
