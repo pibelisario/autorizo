@@ -84,7 +84,9 @@
                                             <th>Nome:</th>
                                             <th>Cpf:</th>
                                             <th>Cidade:</th>
+                                            <th>Limite:</th>
                                             <th>Situação:</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -93,12 +95,15 @@
                                             <td th:text="${associado.nome}"></td>
                                             <td th:text="${associado.cpf}"></td>
                                             <td th:text="${associado.cidade}"></td>
+<!--                                            <td th:text="${associado.limite}"></td>-->
+                                            <td th:text="'R$ '+${#numbers.formatDecimal(associado.limite,1,'POINT',2,'COMMA')}"></td>
                                             <td>
                                                 <span th:text="${associado.situacao}"
                                                       th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
 
                                                 </span>
                                             </td>
+                                            <td><a href="#" class="btn btn-primary" style="margin-top: 0px;">Ver</a></td>
                                         </tr>
                                         </tbody>
                                     </table>

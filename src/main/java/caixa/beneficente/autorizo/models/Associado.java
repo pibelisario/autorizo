@@ -23,4 +23,6 @@ public class Associado {
     private String cpf;
     private String cidade;
     private String situacao;
+    private Double limite;
+    private Double compras;
 }
