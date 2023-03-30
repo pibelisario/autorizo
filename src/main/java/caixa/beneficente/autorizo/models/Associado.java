@@ -1,10 +1,13 @@
 package caixa.beneficente.autorizo.models;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 @Entity
@@ -24,5 +27,7 @@ public class Associado {
     private String cidade;
     private String situacao;
     private Double limite;
-    private Double compras;
+
+    @OneToMany(mappedBy = "associado")
+    private List<Compra> compras = new ArrayList<Compra>();
 }

@@ -1,6 +1,5 @@
 package caixa.beneficente.autorizo.controllers;
 
-
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.services.AssociadoService;
 import org.springframework.web.bind.annotation.*;
@@ -18,25 +17,25 @@ public class AssociadoController {
     }
 
     @GetMapping("/pesquisar")
-    public ModelAndView pesquisaAssociado(){
+    public ModelAndView pesquisaAssociado() {
         ModelAndView mv = new ModelAndView("/associado/index");
-//        mv.addObject("associados", associadoService.findAll());
+        // mv.addObject("associados", associadoService.findAll());
         return mv;
     }
 
     @GetMapping("/listarTodos")
-    public ModelAndView findAll(){
+    public ModelAndView findAll() {
         ModelAndView mv = new ModelAndView("/associado/listaAssociados");
         mv.addObject("associados", associadoService.findAll());
         return mv;
     }
 
     @PostMapping("buscarRg")
-    public ModelAndView buscarRg(@RequestParam("rg")String rg){
+    public ModelAndView buscarRg(@RequestParam("rg") String rg) {
         ModelAndView mv = new ModelAndView("/associado/index");
         List<Associado> associados = associadoService.findByRg(rg);
-        if (associados.isEmpty()){
-            mv.addObject("mensagem", "Nenhum registro encontrando para o RG: " +rg);
+        if (associados.isEmpty()) {
+            mv.addObject("mensagem", "Nenhum registro encontrando para o RG: " + rg);
         } else {
             mv.addObject("associados", associados);
         }
@@ -44,11 +43,11 @@ public class AssociadoController {
     }
 
     @PostMapping("buscarNome")
-    public ModelAndView buscarNome(@RequestParam("nome")String nome){
+    public ModelAndView buscarNome(@RequestParam("nome") String nome) {
         ModelAndView mv = new ModelAndView("/associado/index");
         List<Associado> associados = associadoService.findByNome(nome);
-        if (associados.isEmpty()){
-            mv.addObject("mensagem", "Nenhum registo encontrado para o NOME: " +nome);
+        if (associados.isEmpty()) {
+            mv.addObject("mensagem", "Nenhum registo encontrado para o NOME: " + nome);
         } else {
             mv.addObject("associados", associados);
         }
@@ -56,21 +55,15 @@ public class AssociadoController {
     }
 
     @PostMapping("buscarCpf")
-    public ModelAndView buscarCpf(@RequestParam("cpf")String cpf){
+    public ModelAndView buscarCpf(@RequestParam("cpf") String cpf) {
         ModelAndView mv = new ModelAndView("/associado/index");
         List<Associado> associados = associadoService.findByCpf(cpf);
-        if (associados.isEmpty()){
-            mv.addObject("mensagem", "Nenhum registro encontrado para o CPF: " +cpf);
+        if (associados.isEmpty()) {
+            mv.addObject("mensagem", "Nenhum registro encontrado para o CPF: " + cpf);
         } else {
             mv.addObject("associados", associados);
         }
         return mv;
     }
 
-    @GetMapping("compras/{id}")
-    public ModelAndView compras(@PathVariable("id")Long id){
-        ModelAndView mv = new ModelAndView("associado/compras");
-        mv.addObject("associado", associadoService.findById(id));
-        return mv;
-    }
 }
