@@ -3,10 +3,7 @@ package caixa.beneficente.autorizo.controllers;
 
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.services.AssociadoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -67,6 +64,13 @@ public class AssociadoController {
         } else {
             mv.addObject("associados", associados);
         }
+        return mv;
+    }
+
+    @GetMapping("compras/{id}")
+    public ModelAndView compras(@PathVariable("id")Long id){
+        ModelAndView mv = new ModelAndView("associado/compras");
+        mv.addObject("associado", associadoService.findById(id));
         return mv;
     }
 }

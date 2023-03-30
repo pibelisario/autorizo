@@ -69,8 +69,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--Lista de Associados-->
+                    <!--Mostra Associado-->
                     <div class="containerr py-5 h-100" th:if="${not #strings.isEmpty(associados)}">
                         <div class="row d-flex justify-content-center align-items-center h-100">
                             <div class="card row shadow-2-strong" style="border-radius: 1rem;">
@@ -103,7 +102,7 @@
 
                                                 </span>
                                             </td>
-                                            <td><a href="#" class="btn btn-primary" style="margin-top: 0px;">Ver</a></td>
+                                            <td><a th:href="@{/compras/{id}(id=${associado.id})}" class="btn btn-primary" style="margin-top: 0px;">Adicionar Compra</a></td>
                                         </tr>
                                         </tbody>
                                     </table>

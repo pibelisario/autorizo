@@ -31,4 +31,8 @@ public class AssociadoService {
     public List<Associado> findByCpf(String cpf){
         return associadoRepository.findByCpf(cpf);
     }
+
+    public Associado findById(Long id){
+        return associadoRepository.findById(id).get();
+    }
 }
