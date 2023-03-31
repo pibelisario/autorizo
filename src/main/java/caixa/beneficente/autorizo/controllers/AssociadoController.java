@@ -30,29 +30,29 @@ public class AssociadoController {
         return mv;
     }
 
-    @PostMapping("buscarRg")
-    public ModelAndView buscarRg(@RequestParam("rg") String rg) {
-        ModelAndView mv = new ModelAndView("/associado/index");
-        List<Associado> associados = associadoService.findByRg(rg);
-        if (associados.isEmpty()) {
-            mv.addObject("mensagem", "Nenhum registro encontrando para o RG: " + rg);
-        } else {
-            mv.addObject("associados", associados);
-        }
-        return mv;
-    }
+    // @PostMapping("buscarRg")
+    // public ModelAndView buscarRg(@RequestParam("rg") String rg) {
+    // ModelAndView mv = new ModelAndView("/associado/index");
+    // List<Associado> associados = associadoService.findByRg(rg);
+    // if (associados.isEmpty()) {
+    // mv.addObject("mensagem", "Nenhum registro encontrando para o RG: " + rg);
+    // } else {
+    // mv.addObject("associados", associados);
+    // }
+    // return mv;
+    // }
 
-    @PostMapping("buscarNome")
-    public ModelAndView buscarNome(@RequestParam("nome") String nome) {
-        ModelAndView mv = new ModelAndView("/associado/index");
-        List<Associado> associados = associadoService.findByNome(nome);
-        if (associados.isEmpty()) {
-            mv.addObject("mensagem", "Nenhum registo encontrado para o NOME: " + nome);
-        } else {
-            mv.addObject("associados", associados);
-        }
-        return mv;
-    }
+    // @PostMapping("buscarNome")
+    // public ModelAndView buscarNome(@RequestParam("nome") String nome) {
+    // ModelAndView mv = new ModelAndView("/associado/index");
+    // List<Associado> associados = associadoService.findByNome(nome);
+    // if (associados.isEmpty()) {
+    // mv.addObject("mensagem", "Nenhum registo encontrado para o NOME: " + nome);
+    // } else {
+    // mv.addObject("associados", associados);
+    // }
+    // return mv;
+    // }
 
     @PostMapping("buscarCpf")
     public ModelAndView buscarCpf(@RequestParam("cpf") String cpf) {

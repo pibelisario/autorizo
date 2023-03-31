@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.services.AssociadoService;
+import caixa.beneficente.autorizo.services.CompraService;
 
 @RestController
 public class CompraController {
@@ -21,18 +22,20 @@ public class CompraController {
     CompraRepository compraRepository;
     @Autowired
     AssociadoService associadoService;
+    @Autowired
+    CompraService compraService;
 
     @GetMapping("compras/{id}")
     public ModelAndView compras(@PathVariable("id") Long id) {
         ModelAndView mv = new ModelAndView("associado/compras");
         mv.addObject("associado", associadoService.findById(id));
+        mv.addObject("compras", compraRepository.findAll());
         return mv;
     }
 
     @GetMapping("lancarCompra/{id}")
     public ModelAndView lancarCompra(@RequestParam("valor") String valor, @PathVariable("id") Long id) {
         ModelAndView mv = new ModelAndView();
-        System.out.println(valor + " - " + id);
         return compras(id);
     }
 

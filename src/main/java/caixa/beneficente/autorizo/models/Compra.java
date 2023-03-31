@@ -1,5 +1,7 @@
 package caixa.beneficente.autorizo.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +16,8 @@ public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String valor;
+    private Double valor;
+    private LocalDate dataCompra = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "associado_id")

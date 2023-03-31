@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <!--Mostra Associado-->
-                    <div class="containerr py-5 h-100" th:if="${not #strings.isEmpty(associados)}">
+                    <div class="containerr py-5 h-100" >
                         <div class="row d-flex justify-content-center align-items-center h-100">
                             <div class="card row shadow-2-strong" style="border-radius: 1rem;">
                                 <div class="alert alert-danger" th:text="${mensagem}"
@@ -94,8 +94,8 @@
                                             <td th:text="${associado.nome}"></td>
                                             <td th:text="${associado.cpf}"></td>
                                             <td th:text="${associado.cidade}"></td>
-<!--                                            <td th:text="${associado.limite}"></td>-->
-                                            <td th:text="'R$ '+${#numbers.formatDecimal(associado.limite,1,'POINT',2,'COMMA')}"></td>
+                                            <td th:text="${associado.limite}"></td>
+                                            <!-- <td th:text="'R$ '+${#numbers.formatDecimal(associado.limite,1,'POINT',2,'COMMA')}"></td> -->
                                             <td>
                                                 <span th:text="${associado.situacao}"
                                                       th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
