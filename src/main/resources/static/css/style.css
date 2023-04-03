@@ -1,3 +1,7 @@
+section{
+    background-color: #042e7b;
+}
+
 .back {
     width: 1600px;
     height: 200px;
@@ -31,4 +35,3 @@
     color: red;
     font-weight: bold;
 }
-

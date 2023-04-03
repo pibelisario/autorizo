@@ -10,7 +10,7 @@
   <script src="/js/main.js"></script>
 </head>
 <body>
-<section class="vh-100" style="background-color: #042e7b;">
+<section >
   <!--Dados do Associado-->
   <div class="container py-5 h-100">
     <div>
@@ -48,7 +48,7 @@
                 <h4 style="margin-top: 10px;">Valor a lançar R$:</h4>
                   <form th:action="@{/lancarCompra/{id}(id=${associado.id})}" method="get">
                     <!-- <input type="hidden" th:field="*{id}"> -->
-                    <input type="text" class="form-control" name="valor" required placeholder="Digite aqui" onKeyPress="return(moeda(this,'.',',',event))"> 
+                    <input type="text" class="form-control" name="valor" autocomplete="off" required placeholder="Digite aqui" onKeyPress="return(moeda(this,'.',',',event))"> 
                     <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Lançar</button>
                   </form>      
 
@@ -59,7 +59,8 @@
           <div class="containerr py-5 h-100" >
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="card row shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-left">
+                  <h4 style="padding-top: 10px;">Lista Compras</h4>
+                    <div class="card-body p-5 text-left" >
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -69,8 +70,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="compra : ${compras}">
-                                <!-- <td th:text="${compra.data}"></td> -->
-                                <td th:text="${associado.valor}"></td>
+                                <td th:text="${compra.dataCompra}"></td>
+                                <td th:text="${compra.valor}"></td>
                             </tr>
                             </tbody>
                         </table>

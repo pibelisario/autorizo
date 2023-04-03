@@ -1,6 +1,5 @@
 package caixa.beneficente.autorizo.services;
 
-
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ public class AssociadoService {
         this.associadoRepository = associadoRepository;
     }
 
-    public List<Associado> findAll(){
+    public List<Associado> findAll() {
         return associadoRepository.findAll();
     }
 
@@ -24,15 +23,22 @@ public class AssociadoService {
         return associadoRepository.findByRg(rg);
     }
 
-    public List<Associado> findByNome(String nome){
+    public List<Associado> findByNome(String nome) {
         return associadoRepository.findByNome(nome);
     }
 
-    public List<Associado> findByCpf(String cpf){
+    public List<Associado> findByCpf(String cpf) {
         return associadoRepository.findByCpf(cpf);
     }
 
-    public Associado findById(Long id){
+    public Associado findById(Long id) {
         return associadoRepository.findById(id).get();
     }
+
+    public void ajustarLimite(Double valor, Long id) {
+        Associado associado = associadoRepository.findById(id).get();
+        associado.setLimite((associado.getLimite() - valor));
+        associadoRepository.save(associado);
+    }
+
 }

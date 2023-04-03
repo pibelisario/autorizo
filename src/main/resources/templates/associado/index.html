@@ -102,7 +102,9 @@
 
                                                 </span>
                                             </td>
-                                            <td><a th:href="@{/compras/{id}(id=${associado.id})}" class="btn btn-primary" style="margin-top: 0px;">Adicionar Compra</a></td>
+                                            <td th:if="${associado.situacao == 'LIBERADO'}">
+                                                <a th:href="@{/compras/{id}(id=${associado.id})}" class="btn btn-primary" style="margin-top: 0px;">Adicionar Compra</a>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
