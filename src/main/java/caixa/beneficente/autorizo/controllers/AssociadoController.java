@@ -12,6 +12,12 @@ public class AssociadoController {
 
     AssociadoService associadoService;
 
+    // @GetMapping("/")
+    // public ModelAndView home() {
+    // ModelAndView mv = new ModelAndView("login/login");
+    // return mv;
+    // }
+
     public AssociadoController(AssociadoService associadoService) {
         this.associadoService = associadoService;
     }
@@ -54,7 +60,7 @@ public class AssociadoController {
     // return mv;
     // }
 
-    @PostMapping("buscarCpf")
+    @PostMapping("/buscarCpf")
     public ModelAndView buscarCpf(@RequestParam("cpf") String cpf) {
         ModelAndView mv = new ModelAndView("/associado/index");
         List<Associado> associados = associadoService.findByCpf(cpf);
