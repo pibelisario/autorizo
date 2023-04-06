@@ -52,6 +52,7 @@
 <!--                        </form>-->
                         <!-- BUSCA POR CPF -->
                         <form action="buscarCpf" method="post" id="buscarPorCpf" class="col s3">
+                            <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
                             <label class="label" for="cpf">Buscar Cpf: </label>
                             <input class="form-control" type="text" id="cpf" name="cpf"
                                    onkeyup="mascaraCpf('___.___.___-__', this)" required
@@ -108,7 +109,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <a class="btn btn-danger" th:href="@{/pesquisar}">Voltar</a>
+                                    <a class="btn btn-danger" th:href="@{/}">Voltar</a>
                                 </div>
                             </div>
                         </div>
