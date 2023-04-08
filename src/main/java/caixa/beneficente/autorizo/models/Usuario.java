@@ -1,9 +1,21 @@
 package caixa.beneficente.autorizo.models;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.hibernate.resource.beans.internal.FallbackBeanInstanceProducer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.FlashMap;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.*;
 
 @Entity
@@ -12,12 +24,48 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String user;
+    @Column(nullable = false)
     private String senha;
-    private String farmacia;
+    @ManyToMany
+    @JoinTable(name = "USERS_ROLES",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+    @Override
+    public String getUsername() {
+        return this.user;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
