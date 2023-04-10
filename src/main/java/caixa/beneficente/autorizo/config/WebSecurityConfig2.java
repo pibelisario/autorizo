@@ -2,8 +2,6 @@ package caixa.beneficente.autorizo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,6 +55,7 @@ public class WebSecurityConfig2 {
                 authorizeConfig -> {
                     authorizeConfig.requestMatchers("/logout").permitAll();
                     authorizeConfig.requestMatchers("/login").permitAll();
+                    authorizeConfig.requestMatchers("/").permitAll();
                     authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
                     authorizeConfig.anyRequest().authenticated();
                 });

@@ -8,6 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
+    @RequestMapping("/")
+    public ModelAndView index() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("redirect:/login");
+        return mv;
+    }
+
     @RequestMapping("/login")
     public ModelAndView home() {
         ModelAndView mv = new ModelAndView();
