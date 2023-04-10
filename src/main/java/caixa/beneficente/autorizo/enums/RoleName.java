@@ -1,8 +1,6 @@
 package caixa.beneficente.autorizo.enums;
 
 public enum RoleName {
-
-    ADMIN,
-    USER;
-
+    ROLE_ADMIN,
+    ROLE_USER;
 }
