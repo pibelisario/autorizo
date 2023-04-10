@@ -21,13 +21,6 @@ public class AssociadoController {
         this.associadoService = associadoService;
     }
 
-    @GetMapping("/")
-    public ModelAndView pesquisaAssociado() {
-        ModelAndView mv = new ModelAndView("/associado/pesquisar");
-        // mv.addObject("associados", associadoService.findAll());
-        return mv;
-    }
-
     @GetMapping("/listarTodos")
     public ModelAndView findAll() {
         ModelAndView mv = new ModelAndView("/associado/listaAssociados");

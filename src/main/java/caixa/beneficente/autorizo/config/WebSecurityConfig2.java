@@ -33,24 +33,41 @@ public class WebSecurityConfig2 {
         // authorizeConfig -> {
         // authorizeConfig.requestMatchers("/logout").permitAll();
         // authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
+        // authorizeConfig.requestMatchers("/logout").permitAll();
         // authorizeConfig.anyRequest().authenticated();
         // })
         // .formLogin(Customizer.withDefaults())
         // .build();
 
-        return http
-                .authorizeHttpRequests(
-                        authorizeConfig -> {
-                            authorizeConfig.requestMatchers("/logout").permitAll();
-                            authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
-                            authorizeConfig.anyRequest().authenticated();
-                        })
-                .formLogin((form) -> form
-                        .loginPage("/log")
-                        .defaultSuccessUrl("/")
-                        .permitAll())
-                .logout((logout) -> logout.permitAll())
-                .build();
+        // return http
+        // .authorizeHttpRequests(
+        // authorizeConfig -> {
+        // authorizeConfig.requestMatchers("/logout").permitAll();
+        // authorizeConfig.requestMatchers("/login").permitAll();
+        // authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
+        // authorizeConfig.anyRequest().authenticated();
+        // })
+        // .formLogin((form) -> form
+        // .loginPage("/login").permitAll()
+        // .defaultSuccessUrl("/pesquisar"))
+        // .logout((logout) -> logout.permitAll())
+        // .build();
+
+        http.authorizeHttpRequests(
+                authorizeConfig -> {
+                    authorizeConfig.requestMatchers("/logout").permitAll();
+                    authorizeConfig.requestMatchers("/login").permitAll();
+                    authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
+                    authorizeConfig.anyRequest().authenticated();
+                });
+
+        http.formLogin((form) -> form
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/pesquisar"));
+
+        http.logout((logout) -> logout.permitAll());
+
+        return http.build();
 
     }
 
