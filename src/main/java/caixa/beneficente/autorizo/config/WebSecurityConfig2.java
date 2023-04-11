@@ -55,6 +55,9 @@ public class WebSecurityConfig2 {
                 authorizeConfig -> {
                     authorizeConfig.requestMatchers("/logout").permitAll();
                     authorizeConfig.requestMatchers("/login").permitAll();
+                    authorizeConfig.requestMatchers("/css/**").permitAll();
+                    authorizeConfig.requestMatchers("/img/**").permitAll();
+                    authorizeConfig.requestMatchers("/js/**").permitAll();
                     authorizeConfig.requestMatchers("/").permitAll();
                     authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
                     authorizeConfig.anyRequest().authenticated();
