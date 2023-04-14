@@ -62,7 +62,8 @@ public class Relatorio {
             Paragraph comprasAssociado = new Paragraph();
             comprasAssociado
                     .add(new Chunk(
-                            "Data compra: " + compra.getDataCompra().toString() + " Valor: R$" + compra.getValor(),
+                            "Data compra: " + new FormatDate().formatarData(compra.getDataCompra()) + " Valor: R$"
+                                    + compra.getValor(),
                             new Font(Font.HELVETICA, 12)));
             comprasAssociado.add(new Paragraph(" "));
             comprasAssociado.add(new Paragraph(" "));

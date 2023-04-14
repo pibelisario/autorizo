@@ -44,18 +44,15 @@ public class CompraController {
     @GetMapping("/download")
     public HttpEntity<byte[]> download(@RequestParam("id") Long id) throws IOException {
 
-        System.out.println(id);
-
         compraService.gerarRelatorio(id);
 
         byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\RelatorioVendas.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
 
-        String nomeRelatorio = associadoService.findById(id).getNome();
-
         httpHeaders.add("Content-Disposition",
-                "attachment;filename=\"" + nomeRelatorio.replace(" ", "") + ".pdf\"");
+                "attachment;filename=\""
+                        + associadoService.findById(id).getNome().replace(" ", "") + ".pdf\"");
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
 
