@@ -1,6 +1,11 @@
 package caixa.beneficente.autorizo.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +39,25 @@ public class CompraController {
         ModelAndView mv = new ModelAndView();
         compraService.salvar(valor, id);
         return compras(id);
+    }
+
+    @GetMapping("/download")
+    public HttpEntity<byte[]> download(@RequestParam("id")Long id) throws IOException {
+
+        System.out.println(id);
+
+        byte[] arquivo = Files.readAllBytes( Paths.get("C:\\Workspace\\autorizo\\RelatorioVendas.pdf") );
+        
+
+        org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
+
+        httpHeaders.add("Content-Disposition", "attachment;filename=\"ingresso.pdf\"");
+
+        HttpEntity<byte[]> entity = new HttpEntity<byte[]>( arquivo, httpHeaders);
+
+        System.out.println("Passei aqui");
+
+        return entity;
     }
 
 }

@@ -81,7 +81,10 @@
             </div>
         </div>
           <a class="btn btn-danger" th:href="@{/pesquisar}">Voltar</a>
-          <a class="btn btn-warning" href="#">Gerar Relatório</a>
+          <form th:action="@{/download}" method="get">
+            <input type="hidden" th:field="${associado.id}">
+            <button class="btn btn-warning">Gerar Relatório</button>
+          </form>
         </div>
       </div>
     </div>
