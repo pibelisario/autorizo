@@ -53,4 +53,12 @@ public class CompraService {
 
     }
 
+    public double calcularTotal(Long id) {
+        double total = 0;
+        for (Compra compra : compraRepository.findByCompraId(id)) {
+            total += compra.getValor();
+        }
+        return total;
+    }
+
 }

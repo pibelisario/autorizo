@@ -31,6 +31,7 @@ public class CompraController {
         ModelAndView mv = new ModelAndView("associado/compras");
         mv.addObject("associado", associadoService.findById(id));
         mv.addObject("compras", compraRepository.findByCompraId(id));
+        mv.addObject("totalCompras", compraService.calcularTotal(id));
         return mv;
     }
 

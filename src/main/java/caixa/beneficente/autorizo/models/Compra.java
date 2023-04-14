@@ -19,6 +19,10 @@ public class Compra {
     private Double valor;
     private LocalDate dataCompra = LocalDate.now();
 
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @ManyToOne
     @JoinColumn(name = "associado_id")
     private Associado associado;

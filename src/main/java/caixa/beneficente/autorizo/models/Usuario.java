@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,9 +36,14 @@ public class Usuario implements UserDetails {
     private String user;
     @Column(nullable = false)
     private String senha;
+    @Column(nullable = false)
+    private String nome;
     @ManyToMany
     @JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Compra> compras;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
