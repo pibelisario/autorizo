@@ -11,8 +11,10 @@ import com.lowagie.text.DocumentException;
 
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.models.Compra;
+import caixa.beneficente.autorizo.models.Usuario;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
+import caixa.beneficente.autorizo.repositories.UsuarioRepository;
 import caixa.beneficente.autorizo.util.Relatorio;
 
 @Service
@@ -24,6 +26,8 @@ public class CompraService {
     CompraRepository compraRepository;
     @Autowired
     AssociadoRepository associadoRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     public List<Compra> findAll() {
         List<Compra> compras = compraRepository.findAll();
@@ -31,14 +35,14 @@ public class CompraService {
         return compras;
     }
 
-    public void salvar(String valor, Long id) {
+    public void salvar(String valor, Long id, String userName) {
         valor = valor.replace(".", "");
         valor = valor.replace(",", ".");
         double vDouble = Double.valueOf(valor).doubleValue();
-        System.out.println(vDouble);
         Compra compra = new Compra();
         compra.setValor(vDouble);
         compra.setAssociado(associadoService.findById(id));
+        compra.setUsuario(usuarioRepository.findByUser(userName).get());
         compraRepository.save(compra);
         associadoService.ajustarLimite(vDouble, id);
     }

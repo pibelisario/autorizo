@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,10 +36,9 @@ public class CompraController {
         return mv;
     }
 
-    @GetMapping("lancarCompra/{id}")
-    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @PathVariable("id") Long id) {
-        ModelAndView mv = new ModelAndView();
-        compraService.salvar(valor, id);
+    @PostMapping("lancarCompra/{id}")
+    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @RequestParam("idUser")String userName, @PathVariable("id") Long id) {
+        compraService.salvar(valor, id, userName);
         return compras(id);
     }
 

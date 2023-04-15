@@ -49,8 +49,12 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
               <div class="card row shadow-2-strong" style="border-radius: 1rem; width: 350px; justify-content: left;">
                 <h4 style="margin-top: 10px;">Valor a lançar R$:</h4>
-                  <form th:action="@{/lancarCompra/{id}(id=${associado.id})}" method="get">
+                  <form th:action="@{/lancarCompra/{id}(id=${associado.id})}" method="post">
+                    <!-- <form th:action="@{/lancarCompra/(idUser = ${#authentication.getPrincipal().getUsername()}, id =${associado.id  }) }" method="get"> -->
+                    <!-- /{idUser}(idUser=${${#authentication.getPrincipal().getUsername()}) -->
                     <!-- <input type="hidden" th:field="*{id}"> -->
+                    <input type="hidden" name="idUser" th:value="${#authentication.getPrincipal().getUsername()}">
+                    <!-- <span th:text="${#authentication.getPrincipal().getUsername()}"></span> -->
                     <input type="text" class="form-control" name="valor" autocomplete="off" required placeholder="Digite aqui" onKeyPress="return(moeda(this,'.',',',event))"> 
                     <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Lançar</button>
                   </form>      
@@ -69,12 +73,14 @@
                             <tr>
                                 <th>Data:</th>
                                 <th>Valor:</th>
+                                <th>Local: </th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="compra : ${compras}">
                                 <td th:text="${compra.dataCompra}"></td>
                                 <td th:text="${compra.valor}"></td>
+                                <td th:text="${compra.usuario.nome}"></td>
                             </tr>
                             </tbody>
                         </table>
