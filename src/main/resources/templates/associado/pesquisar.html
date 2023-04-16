@@ -84,7 +84,6 @@
                                             <td>
                                                 <span th:text="${associado.situacao}"
                                                       th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
-
                                                 </span>
                                             </td>
                                             <td th:if="${associado.situacao == 'LIBERADO'}">
@@ -95,8 +94,12 @@
                                     </table>
                                     <a class="btn btn-danger" th:href="@{/pesquisar}">Voltar</a>
                                 </div>
-                            </div>
+                            </div>    
+                            <div th:each="associado : ${associados}" class="card row" style="border-radius: 1rem; text-align: center;" th:if="${associado.situacao == 'BLOQUEADO'}">
+                                    <span style="font-size: larger; font-weight: bolder; color: red;">Entrar em contato no (62)3230-4614 ou wpp (62)98477-6718</span>
+                            </div>                        
                         </div>
+                        
                     </div>
                 </div>
             </div>
