@@ -26,7 +26,7 @@ public class Relatorio {
     private Associado associado;
     private List<Compra> listaCompras;
     private Document documentoPdf;
-    private String caminhoRelatorio = "RelatorioVendas.pdf";
+    private String caminhoRelatorio = "relatorios/RelatorioVendas.pdf";
 
     public Relatorio(Associado associado, List<Compra> listaCompras) throws DocumentException, FileNotFoundException {
         this.associado = associado;

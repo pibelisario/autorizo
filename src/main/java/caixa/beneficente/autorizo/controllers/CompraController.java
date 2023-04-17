@@ -37,7 +37,8 @@ public class CompraController {
     }
 
     @PostMapping("lancarCompra/{id}")
-    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @RequestParam("idUser")String userName, @PathVariable("id") Long id) {
+    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @RequestParam("idUser") String userName,
+            @PathVariable("id") Long id) {
         compraService.salvar(valor, id, userName);
         return compras(id);
     }
@@ -47,7 +48,7 @@ public class CompraController {
 
         compraService.gerarRelatorio(id);
 
-        byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\RelatorioVendas.pdf"));
+        byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioVendas.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
 

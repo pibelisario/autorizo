@@ -39,6 +39,7 @@ public class CompraService {
         valor = valor.replace(".", "");
         valor = valor.replace(",", ".");
         double vDouble = Double.valueOf(valor).doubleValue();
+        Math.round(vDouble);
         Compra compra = new Compra();
         compra.setValor(vDouble);
         compra.setAssociado(associadoService.findById(id));
