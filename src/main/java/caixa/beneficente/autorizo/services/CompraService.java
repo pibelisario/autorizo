@@ -16,6 +16,7 @@ import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.repositories.UsuarioRepository;
 import caixa.beneficente.autorizo.util.Relatorio;
+import caixa.beneficente.autorizo.util.RelatorioMensal;
 
 @Service
 public class CompraService {
@@ -56,6 +57,14 @@ public class CompraService {
         relatorio.gerarCorpo();
         relatorio.imprimirRelaotrio();
 
+    }
+
+    public void gerarRelatorioMensal() throws DocumentException, FileNotFoundException {
+        List<Compra> compras = compraRepository.findAll();
+        RelatorioMensal relatorioMensal = new RelatorioMensal(compras);
+        relatorioMensal.gerarCabecalho();
+        relatorioMensal.gerarCorpo();
+        relatorioMensal.imprimirRelaotrio();
     }
 
     public double calcularTotal(Long id) {

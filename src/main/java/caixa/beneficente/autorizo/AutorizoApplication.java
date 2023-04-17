@@ -27,26 +27,26 @@ public class AutorizoApplication {
 
 		System.out.println(new BCryptPasswordEncoder().encode("123"));
 
-		Associado associado = new Associado();
-		associado.setId(1L);
-		associado.setNome("Norival Braga Teixeira");
-		associado.setRg("23.697.356-3");
-		associado.setCpf("244.562.738-95");
-		associado.setCidade("Goiania");
-		associado.setSituacao("LIBERADO");
-		associado.setLimite(800.0);
+		// Associado associado = new Associado();
+		// associado.setId(1L);
+		// associado.setNome("Norival Braga Teixeira");
+		// associado.setRg("23.697.356-3");
+		// associado.setCpf("244.562.738-95");
+		// associado.setCidade("Goiania");
+		// associado.setSituacao("LIBERADO");
+		// associado.setLimite(800.0);
 
-		Compra c1 = new Compra(1L, 150.0, LocalDate.now(), null, associado);
-		Compra c2 = new Compra(1L, 100.0, LocalDate.now(), null, associado);
+		// Compra c1 = new Compra(1L, 150.0, LocalDate.now(), null, associado);
+		// Compra c2 = new Compra(1L, 100.0, LocalDate.now(), null, associado);
 
-		List<Compra> comprasMensal = new ArrayList();
-		comprasMensal.add(c1);
-		comprasMensal.add(c2);
+		// List<Compra> comprasMensal = new ArrayList();
+		// comprasMensal.add(c1);
+		// comprasMensal.add(c2);
 
-		RelatorioMensal relatorioMensal = new RelatorioMensal();
-		relatorioMensal.gerarCabecalho();
-		relatorioMensal.gerarCorpo();
-		relatorioMensal.imprimirRelaotrio();
+		// RelatorioMensal relatorioMensal = new RelatorioMensal();
+		// relatorioMensal.gerarCabecalho();
+		// relatorioMensal.gerarCorpo();
+		// relatorioMensal.imprimirRelaotrio();
 
 	}
 

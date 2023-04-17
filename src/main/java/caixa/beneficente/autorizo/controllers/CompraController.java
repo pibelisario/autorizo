@@ -73,6 +73,8 @@ public class CompraController {
     @GetMapping("/downloadRelatorioMensal")
     public HttpEntity<byte[]> download() throws IOException {
 
+        compraService.gerarRelatorioMensal();
+
         byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioVendas.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();

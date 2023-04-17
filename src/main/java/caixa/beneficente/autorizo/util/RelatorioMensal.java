@@ -6,10 +6,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import caixa.beneficente.autorizo.services.CompraService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -20,23 +16,14 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.models.Compra;
-import caixa.beneficente.autorizo.repositories.AssociadoRepository;
-import caixa.beneficente.autorizo.repositories.CompraRepository;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
-@Service
 public class RelatorioMensal {
-
-    @Autowired
-    CompraService compraService;
-    @Autowired
-    AssociadoRepository associadoRepository;
 
     private Associado associado;
     private List<Compra> listaCompras;
@@ -46,9 +33,6 @@ public class RelatorioMensal {
     int ano = dataReferencia.getYear();
     Month mes = dataReferencia.getMonth();
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
-
-    List<Associado> associados = associadoRepository.findAll();
-    List<Compra> compras = compraService.findAll();
 
     public RelatorioMensal() throws DocumentException, FileNotFoundException {
         this.documentoPdf = new Document();
@@ -80,7 +64,7 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        for (Compra compra : compras) {
+        for (Compra compra : listaCompras) {
             Paragraph comprasAssociado = new Paragraph();
             comprasAssociado
                     .add(new Chunk("Rg: " + compra.getAssociado().getRg() +
@@ -102,7 +86,7 @@ public class RelatorioMensal {
 
     public double calcularTotal() {
         double total = 0;
-        for (Compra compra : compras) {
+        for (Compra compra : listaCompras) {
             if (compra.getDataCompra().getDayOfMonth() == dataReferencia.getDayOfMonth()) {
                 total += compra.getValor();
             }
