@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.lowagie.text.DocumentException;
 
+import caixa.beneficente.autorizo.util.RelatorioMensal;
+
 @SpringBootApplication
 public class AutorizoApplication {
 
@@ -15,6 +17,10 @@ public class AutorizoApplication {
 		SpringApplication.run(AutorizoApplication.class, args);
 
 		System.out.println(new BCryptPasswordEncoder().encode("123"));
+
+		RelatorioMensal relatorioMensal = new RelatorioMensal(null, null, null);
+		relatorioMensal.gerarCabecalho();
+		relatorioMensal.imprimirRelaotrio();
 
 	}
 

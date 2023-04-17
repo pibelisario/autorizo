@@ -20,6 +20,7 @@ import caixa.beneficente.autorizo.services.CompraService;
 @RestController
 public class CompraController {
 
+    private static final byte[] HttpHeaders = null;
     @Autowired
     CompraRepository compraRepository;
     @Autowired
@@ -55,6 +56,29 @@ public class CompraController {
         httpHeaders.add("Content-Disposition",
                 "attachment;filename=\""
                         + associadoService.findById(id).getNome().replace(" ", "") + ".pdf\"");
+
+        HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
+
+        System.out.println("Passei aqui");
+
+        return entity;
+    }
+
+    @GetMapping("/adm")
+    public ModelAndView downloadRelatorioMensal() {
+        ModelAndView mv = new ModelAndView("associado/relatorioMensal");
+        return mv;
+    }
+
+    @GetMapping("/downloadRelatorioMensal")
+    public HttpEntity<byte[]> download() throws IOException {
+
+        byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioVendas.pdf"));
+
+        org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
+
+        httpHeaders.add("Content-Disposition",
+                "attachment;filename=\"relatorioMensal.pdf\"");
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
 
