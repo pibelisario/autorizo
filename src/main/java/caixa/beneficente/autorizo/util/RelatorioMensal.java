@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import caixa.beneficente.autorizo.services.CompraService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -16,6 +20,8 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.models.Compra;
+import caixa.beneficente.autorizo.repositories.AssociadoRepository;
+import caixa.beneficente.autorizo.repositories.CompraRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +30,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@Service
 public class RelatorioMensal {
+
+    @Autowired
+    CompraService compraService;
+    @Autowired
+    AssociadoRepository associadoRepository;
 
     private Associado associado;
     private List<Compra> listaCompras;
@@ -34,14 +45,20 @@ public class RelatorioMensal {
     private LocalDate dataReferencia = LocalDate.now();
     int ano = dataReferencia.getYear();
     Month mes = dataReferencia.getMonth();
-
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
 
-    public RelatorioMensal(Associado associado, List<Compra> listaCompras, LocalDate dataRelatorio)
-            throws DocumentException, FileNotFoundException {
-        this.associado = associado;
+    List<Associado> associados = associadoRepository.findAll();
+    List<Compra> compras = compraService.findAll();
+
+    public RelatorioMensal() throws DocumentException, FileNotFoundException {
+        this.documentoPdf = new Document();
+        PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
+        this.documentoPdf.open();
+    }
+
+    public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
+            FileNotFoundException {
         this.listaCompras = listaCompras;
-        this.dataRelatorio = dataRelatorio;
         this.documentoPdf = new Document();
         PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
         this.documentoPdf.open();
@@ -63,29 +80,17 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        Paragraph dadosAssociado = new Paragraph();
-        dadosAssociado.add(
-                new Chunk("Rg: " + associado.getRg() + " Nome: " + associado.getNome(), new Font(Font.HELVETICA, 14)));
-        dadosAssociado.add(new Paragraph(" "));
-        dadosAssociado.add(new Paragraph(" "));
-        this.documentoPdf.add(dadosAssociado);
-
-        for (Compra compra : this.listaCompras) {
+        for (Compra compra : compras) {
             Paragraph comprasAssociado = new Paragraph();
             comprasAssociado
                     .add(new Chunk("Rg: " + compra.getAssociado().getRg() +
                             " Nome: " + compra.getAssociado().getNome() +
-                            "Total: ",
+                            "Total: " + calcularTotal(),
                             new Font(Font.HELVETICA, 12)));
             comprasAssociado.add(new Paragraph(" "));
             comprasAssociado.add(new Paragraph(" "));
             this.documentoPdf.add(comprasAssociado);
         }
-
-        Paragraph totalCompra = new Paragraph();
-        totalCompra.setAlignment(Element.ALIGN_RIGHT);
-        totalCompra.add(new Chunk("Total da Compra: " + calcularTotal(), new Font(Font.BOLD, 14)));
-        this.documentoPdf.add(totalCompra);
     }
 
     public void imprimirRelaotrio() {
@@ -97,8 +102,10 @@ public class RelatorioMensal {
 
     public double calcularTotal() {
         double total = 0;
-        for (Compra compra : this.listaCompras) {
-            total += compra.getValor();
+        for (Compra compra : compras) {
+            if (compra.getDataCompra().getDayOfMonth() == dataReferencia.getDayOfMonth()) {
+                total += compra.getValor();
+            }
         }
         return total;
     }
