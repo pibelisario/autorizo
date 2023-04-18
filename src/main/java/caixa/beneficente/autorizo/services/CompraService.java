@@ -11,7 +11,6 @@ import com.lowagie.text.DocumentException;
 
 import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.models.Compra;
-import caixa.beneficente.autorizo.models.Usuario;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.repositories.UsuarioRepository;

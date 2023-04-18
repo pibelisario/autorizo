@@ -75,7 +75,7 @@ public class CompraController {
 
         compraService.gerarRelatorioMensal();
 
-        byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioVendas.pdf"));
+        byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioMensal.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
 

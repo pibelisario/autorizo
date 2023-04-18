@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import org.hibernate.engine.jdbc.Size;
+
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -64,17 +66,39 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        for (Compra compra : listaCompras) {
-            Paragraph comprasAssociado = new Paragraph();
-            comprasAssociado
-                    .add(new Chunk("Rg: " + compra.getAssociado().getRg() +
-                            " Nome: " + compra.getAssociado().getNome() +
-                            "Total: " + calcularTotal(),
-                            new Font(Font.HELVETICA, 12)));
-            comprasAssociado.add(new Paragraph(" "));
-            comprasAssociado.add(new Paragraph(" "));
-            this.documentoPdf.add(comprasAssociado);
+        for (int i = 0; i < listaCompras.size(); i ++) {
+            Paragraph dadosAssociado = new Paragraph();
+            dadosAssociado.add(new Chunk(new Chunk("Rg: " + listaCompras.get(i).getAssociado().getRg() +
+                    " Nome: " + listaCompras.get(i).getAssociado().getNome() + " Valor: " + listaCompras.get(i).getValor(),
+                    new Font(Font.HELVETICA, 12))));
+            this.documentoPdf.add(dadosAssociado);
+            long idAssociado = listaCompras.get(i).getAssociado().getId();
+            double total = 0;
+            for (int j = 0; j < listaCompras.size(); j++) {
+                if (listaCompras.get(j).getAssociado().getId() == idAssociado) {
+                    total += listaCompras.get(j).getValor();
+                }
+            }
+
+            if (i % 2 != 0){
+                Paragraph totalCompras = new Paragraph();
+                totalCompras.setAlignment(Element.ALIGN_LEFT);
+                totalCompras.add(new Chunk("Total: " + total, new Font(Font.BOLD, 12)));
+                totalCompras.add(new Paragraph());
+                totalCompras.add(new Paragraph());
+                this.documentoPdf.add(totalCompras);
+                totalCompras.add(new Paragraph());
+                totalCompras.add(new Paragraph());
+            }
+            
         }
+        Paragraph totalCompras = new Paragraph();
+            totalCompras.setAlignment(Element.ALIGN_RIGHT);
+            totalCompras.add(new Chunk("Total Geral: " + calcularTotal(), new Font(Font.BOLD, 20)));
+            totalCompras.add(new Paragraph());
+            totalCompras.add(new Paragraph());
+            this.documentoPdf.add(totalCompras);
+
     }
 
     public void imprimirRelaotrio() {
@@ -87,9 +111,10 @@ public class RelatorioMensal {
     public double calcularTotal() {
         double total = 0;
         for (Compra compra : listaCompras) {
-            if (compra.getDataCompra().getDayOfMonth() == dataReferencia.getDayOfMonth()) {
-                total += compra.getValor();
-            }
+            // if (compra.getDataCompra().getDayOfMonth() == dataReferencia.getDayOfMonth())
+            // {
+            total += compra.getValor();
+            // }
         }
         return total;
     }
