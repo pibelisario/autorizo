@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.engine.jdbc.Size;
@@ -48,6 +51,7 @@ public class RelatorioMensal {
         this.documentoPdf = new Document();
         PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
         this.documentoPdf.open();
+        ordenaPorNome(listaCompras);
     }
 
     public void gerarCabecalho() {
@@ -66,39 +70,61 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        for (int i = 0; i < listaCompras.size(); i ++) {
+        double total = 0;
+        String rgInicial = listaCompras.get(0).getAssociado().getRg();
+        for (int i = 0; i < listaCompras.size(); i++) {
+            String rgAssociado = listaCompras.get(i).getAssociado().getRg();
+            if (!rgAssociado.equals(rgInicial)) {
+                imprimirTotal(total);
+                rgInicial = rgAssociado;
+                total = 0;
+            }
             Paragraph dadosAssociado = new Paragraph();
             dadosAssociado.add(new Chunk(new Chunk("Rg: " + listaCompras.get(i).getAssociado().getRg() +
-                    " Nome: " + listaCompras.get(i).getAssociado().getNome() + " Valor: " + listaCompras.get(i).getValor(),
+                    " Nome: " + listaCompras.get(i).getAssociado().getNome() + " Valor: "
+                    + listaCompras.get(i).getValor(),
                     new Font(Font.HELVETICA, 12))));
+            total += listaCompras.get(i).getValor();
             this.documentoPdf.add(dadosAssociado);
-            long idAssociado = listaCompras.get(i).getAssociado().getId();
-            double total = 0;
-            for (int j = 0; j < listaCompras.size(); j++) {
-                if (listaCompras.get(j).getAssociado().getId() == idAssociado) {
-                    total += listaCompras.get(j).getValor();
-                }
-            }
-
-            if (i % 2 != 0){
-                Paragraph totalCompras = new Paragraph();
-                totalCompras.setAlignment(Element.ALIGN_LEFT);
-                totalCompras.add(new Chunk("Total: " + total, new Font(Font.BOLD, 12)));
-                totalCompras.add(new Paragraph());
-                totalCompras.add(new Paragraph());
-                this.documentoPdf.add(totalCompras);
-                totalCompras.add(new Paragraph());
-                totalCompras.add(new Paragraph());
-            }
-            
         }
+        imprimirTotal(total);
         Paragraph totalCompras = new Paragraph();
-            totalCompras.setAlignment(Element.ALIGN_RIGHT);
-            totalCompras.add(new Chunk("Total Geral: " + calcularTotal(), new Font(Font.BOLD, 20)));
-            totalCompras.add(new Paragraph());
-            totalCompras.add(new Paragraph());
-            this.documentoPdf.add(totalCompras);
+        totalCompras.setAlignment(Element.ALIGN_RIGHT);
+        totalCompras.add(new Chunk("Total Geral: " + calcularTotal(), new Font(Font.BOLD, 20)));
+        totalCompras.add(new Paragraph());
+        totalCompras.add(new Paragraph());
+        this.documentoPdf.add(totalCompras);
 
+    }
+
+    public void imprimirTotal(double total) {
+        Paragraph totalCompras = new Paragraph(
+                "-----------------------------------------------------------------------");
+        totalCompras.setAlignment(Element.ALIGN_LEFT);
+        totalCompras.add(new Chunk("Total: " + total, new Font(Font.BOLD, 12)));
+        totalCompras.add(new Paragraph());
+        totalCompras.add(new Paragraph());
+        totalCompras.add(new Paragraph());
+        this.documentoPdf.add(totalCompras);
+
+    }
+
+    public double calcularTotal() {
+        double total = 0;
+        for (Compra compra : listaCompras) {
+            total += compra.getValor();
+        }
+        return total;
+    }
+
+    public void ordenaPorNome(List<Compra> listaCompras) {
+        Collections.sort(listaCompras, new Comparator<Compra>() {
+            @Override
+            public int compare(Compra p1, Compra p2) {
+                return p1.getAssociado().getNome().compareTo(p2.getAssociado().getNome());
+            }
+
+        });
     }
 
     public void imprimirRelaotrio() {
@@ -106,17 +132,6 @@ public class RelatorioMensal {
             this.documentoPdf.close();
         }
 
-    }
-
-    public double calcularTotal() {
-        double total = 0;
-        for (Compra compra : listaCompras) {
-            // if (compra.getDataCompra().getDayOfMonth() == dataReferencia.getDayOfMonth())
-            // {
-            total += compra.getValor();
-            // }
-        }
-        return total;
     }
 
 }
