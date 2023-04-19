@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +25,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class RelatorioMensal {
+public class RelatorioMensalTeste {
 
     private Associado associado;
     private List<Compra> listaCompras;
@@ -37,20 +36,19 @@ public class RelatorioMensal {
     Month mes = dataReferencia.getMonth();
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
 
-    public RelatorioMensal() throws DocumentException, FileNotFoundException {
+    public RelatorioMensalTeste() throws DocumentException, FileNotFoundException {
         this.documentoPdf = new Document();
         PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
         this.documentoPdf.open();
     }
 
-    public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
+    public RelatorioMensalTeste(List<Compra> listaCompras) throws DocumentException,
             FileNotFoundException {
-        this.listaCompras  = listaCompras;
+        this.listaCompras = listaCompras;
         this.documentoPdf = new Document();
         PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
         this.documentoPdf.open();
-        listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
-                .compareTo(c2.getAssociado().getNome().toUpperCase()));
+        ordenaPorNome(listaCompras);
     }
 
     public void gerarCabecalho() {
@@ -69,50 +67,30 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        // ordenaPorNome(listaCompras);
-        // listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
-        // .compareTo(c2.getAssociado().getNome().toUpperCase()));
-        for (Compra compra : listaCompras) {
-            System.out.println(compra.getAssociado().getNome());
-        }
+        double total = 0;
+        String rgInicial = listaCompras.get(0).getAssociado().getRg();
         for (int i = 0; i < listaCompras.size(); i++) {
-
-            List<Compra> compras = new ArrayList();
-
-            Paragraph nomeFarmacia = new Paragraph();
-            nomeFarmacia.setAlignment(Element.ALIGN_CENTER);
-            nomeFarmacia.add(new Chunk(listaCompras.get(i).getUsuario().getNome()));
-            nomeFarmacia.add(new Paragraph());
-            nomeFarmacia.add(new Paragraph());
-            documentoPdf.add(nomeFarmacia);
-
-            Long usuarioId = listaCompras.get(i).getUsuario().getId();
-
-            Paragraph nomeAssociado = new Paragraph();
-            nomeAssociado.setAlignment(Element.ALIGN_LEFT);
-            nomeAssociado.add(new Chunk(listaCompras.get(i).getAssociado().getNome()));
-            documentoPdf.add(nomeAssociado);
-
-            int n = 1;
-            int cont = 0;
-
-            Paragraph dadosCompra = new Paragraph();
-
-            for (int j = 0; j < listaCompras.size(); j++) {
-                if (listaCompras.get(j).getUsuario().getId() == usuarioId) {
-                    compras.add(listaCompras.get(j));
-                    dadosCompra.add(new Chunk("Compra " + n + ": " + compras.get(cont).getDataCompra() +
-                            " - Valor R$: " + compras.get(cont).getValor()));
-                    dadosCompra.add(new Paragraph());
-                    documentoPdf.add(dadosCompra);
-                    n++;
-                    cont++;
-                }
+            String rgAssociado = listaCompras.get(i).getAssociado().getRg();
+            if (!rgAssociado.equals(rgInicial)) {
+                imprimirTotal(total);
+                rgInicial = rgAssociado;
+                total = 0;
             }
-            compras.clear();
-            n = 1;
-            cont = 0;
+            Paragraph dadosAssociado = new Paragraph();
+            dadosAssociado.add(new Chunk(new Chunk("Rg: " + listaCompras.get(i).getAssociado().getRg() +
+                    " Nome: " + listaCompras.get(i).getAssociado().getNome() + " Valor: "
+                    + listaCompras.get(i).getValor(),
+                    new Font(Font.HELVETICA, 12))));
+            total += listaCompras.get(i).getValor();
+            this.documentoPdf.add(dadosAssociado);
         }
+        imprimirTotal(total);
+        Paragraph totalCompras = new Paragraph();
+        totalCompras.setAlignment(Element.ALIGN_RIGHT);
+        totalCompras.add(new Chunk("Total Geral: " + calcularTotal(), new Font(Font.BOLD, 20)));
+        totalCompras.add(new Paragraph());
+        totalCompras.add(new Paragraph());
+        this.documentoPdf.add(totalCompras);
 
     }
 
@@ -136,14 +114,15 @@ public class RelatorioMensal {
         return total;
     }
 
-    // public void ordenaPorNome(List<Compra> listaCompras) {
-    // Collections.sort(listaCompras, new Comparator<Compra>() {
-    // @Override
-    // public int compare(Compra p1, Compra p2) {
-    // return p1.getAssociado().getNome().compareTo(p2.getAssociado().getNome());
-    // }
-    // });
-    // }
+    public void ordenaPorNome(List<Compra> listaCompras) {
+        Collections.sort(listaCompras, new Comparator<Compra>() {
+            @Override
+            public int compare(Compra p1, Compra p2) {
+                return p1.getAssociado().getNome().compareTo(p2.getAssociado().getNome());
+            }
+
+        });
+    }
 
     public void imprimirRelaotrio() {
         if (this.documentoPdf != null || this.documentoPdf.isOpen()) {
