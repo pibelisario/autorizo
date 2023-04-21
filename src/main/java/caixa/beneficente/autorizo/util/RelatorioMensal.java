@@ -7,7 +7,14 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Stream;
+
+import org.aspectj.weaver.AjAttribute.SourceContextAttribute;
+
+import java.util.Set;
+
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -45,7 +52,7 @@ public class RelatorioMensal {
 
     public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
             FileNotFoundException {
-        this.listaCompras  = listaCompras;
+        this.listaCompras = listaCompras;
         this.documentoPdf = new Document();
         PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
         this.documentoPdf.open();
@@ -69,49 +76,60 @@ public class RelatorioMensal {
     }
 
     public void gerarCorpo() {
-        // ordenaPorNome(listaCompras);
-        // listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
-        // .compareTo(c2.getAssociado().getNome().toUpperCase()));
-        for (Compra compra : listaCompras) {
-            System.out.println(compra.getAssociado().getNome());
+
+
+        List<Compra> compras;
+        listaCompras.sort(Comparator.comparing(c -> c.getAssociado().getNome()));
+        Set<Long> ids = new HashSet<>();
+        
+        for (int i = 1; i < listaCompras.size(); i++){
+            ids.add(listaCompras.get(i).getUsuario().getId());
         }
-        for (int i = 0; i < listaCompras.size(); i++) {
 
-            List<Compra> compras = new ArrayList();
+        ids.forEach(System.out::println);
 
+        int id = 1;
+
+        for (int i = 0; i < ids.size(); i++){
+            compras = new ArrayList<>();
+
+            // for (Compra compra : listaCompras) {
+            //     System.out.println(compra.getAssociado().getNome());
+            // }
+    
+            for (int j = 1; j < listaCompras.size(); j++) {
+                    if(listaCompras.get(j).getUsuario().getId() == id){
+                        compras.add(listaCompras.get(j));
+                    }
+            }
+    
             Paragraph nomeFarmacia = new Paragraph();
             nomeFarmacia.setAlignment(Element.ALIGN_CENTER);
-            nomeFarmacia.add(new Chunk(listaCompras.get(i).getUsuario().getNome()));
+            nomeFarmacia.add(new Chunk(compras.get(0).getUsuario().getNome()));
             nomeFarmacia.add(new Paragraph());
             nomeFarmacia.add(new Paragraph());
             documentoPdf.add(nomeFarmacia);
-
-            Long usuarioId = listaCompras.get(i).getUsuario().getId();
-
-            Paragraph nomeAssociado = new Paragraph();
-            nomeAssociado.setAlignment(Element.ALIGN_LEFT);
-            nomeAssociado.add(new Chunk(listaCompras.get(i).getAssociado().getNome()));
-            documentoPdf.add(nomeAssociado);
-
-            int n = 1;
-            int cont = 0;
-
-            Paragraph dadosCompra = new Paragraph();
-
-            for (int j = 0; j < listaCompras.size(); j++) {
-                if (listaCompras.get(j).getUsuario().getId() == usuarioId) {
-                    compras.add(listaCompras.get(j));
-                    dadosCompra.add(new Chunk("Compra " + n + ": " + compras.get(cont).getDataCompra() +
-                            " - Valor R$: " + compras.get(cont).getValor()));
-                    dadosCompra.add(new Paragraph());
-                    documentoPdf.add(dadosCompra);
-                    n++;
-                    cont++;
-                }
+    
+            compras.sort((c1,c2) -> c1.getAssociado().getNome().compareTo(c2.getAssociado().getNome()));
+    
+            for (int k = 0; k < compras.size(); k++){
+                Paragraph dadosAssociado = new Paragraph();
+                dadosAssociado.setAlignment(Element.ALIGN_LEFT);
+                dadosAssociado.add(new Chunk("Nome Associado: " +compras.get(k).getAssociado().getNome()));
+                dadosAssociado.add(new Chunk("Compra " + (k+1) + ": " + compras.get(k).getDataCompra() +
+                                " - Valor R$: " + compras.get(k).getValor()));
+                dadosAssociado.add(new Paragraph());
+                documentoPdf.add(dadosAssociado);
+    
             }
-            compras.clear();
-            n = 1;
-            cont = 0;
+    
+            Paragraph total = new Paragraph();
+            total.setAlignment(Element.ALIGN_RIGHT);
+            total.add(new Chunk("Total: " +compras.stream().map(c -> c.getValor()).reduce(0.0, (x,y) -> x +y), new Font(Font.BOLD, 14)));
+            documentoPdf.add(total);
+
+            id++;
+            compras = null;
         }
 
     }

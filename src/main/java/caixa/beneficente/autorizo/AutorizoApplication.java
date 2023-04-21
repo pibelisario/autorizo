@@ -1,6 +1,5 @@
 package caixa.beneficente.autorizo;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.boot.SpringApplication;
@@ -8,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.lowagie.text.DocumentException;
-
-import caixa.beneficente.autorizo.controllers.CompraController;
 
 @SpringBootApplication
 public class AutorizoApplication {
