@@ -5,16 +5,10 @@ import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Stream;
-
-import org.aspectj.weaver.AjAttribute.SourceContextAttribute;
-
 import java.util.Set;
-
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -97,7 +91,7 @@ public class RelatorioMensal {
             //     System.out.println(compra.getAssociado().getNome());
             // }
     
-            for (int j = 1; j < listaCompras.size(); j++) {
+            for (int j = 0; j < listaCompras.size(); j++) {
                     if(listaCompras.get(j).getUsuario().getId() == id){
                         compras.add(listaCompras.get(j));
                     }
@@ -116,6 +110,10 @@ public class RelatorioMensal {
                 Paragraph dadosAssociado = new Paragraph();
                 dadosAssociado.setAlignment(Element.ALIGN_LEFT);
                 dadosAssociado.add(new Chunk("Nome Associado: " +compras.get(k).getAssociado().getNome()));
+                    dadosAssociado.add(new Paragraph());
+                if (k == 0){
+                    
+                }
                 dadosAssociado.add(new Chunk("Compra " + (k+1) + ": " + compras.get(k).getDataCompra() +
                                 " - Valor R$: " + compras.get(k).getValor()));
                 dadosAssociado.add(new Paragraph());
