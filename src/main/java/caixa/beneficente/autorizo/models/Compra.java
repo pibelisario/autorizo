@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Compra {
 
     @Id
@@ -26,4 +25,11 @@ public class Compra {
     @ManyToOne
     @JoinColumn(name = "associado_id")
     private Associado associado;
+
+    @Override
+    public String toString() {
+        return "Compra [valor=" + valor + ", dataCompra=" + dataCompra+ "]";
+    }
+
+
 }
