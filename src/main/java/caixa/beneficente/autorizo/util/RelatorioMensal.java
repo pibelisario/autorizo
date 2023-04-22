@@ -115,36 +115,38 @@ public class RelatorioMensal {
             //                     " - Valor R$: " + compras.get(k).getValor()));
             //     dadosAssociado.add(new Paragraph());
             //     documentoPdf.add(dadosAssociado);
-    
             // }
+
             String nomeAssociado = null;
             Double tot = 0.0;
-            Long id = null;
+            Paragraph dadosAssociado;
             for (int k = 0; k < compras.size(); k++){
-                Paragraph dadosAssociado = new Paragraph();
+                dadosAssociado = new Paragraph();
                 if (k == 0){
                     nomeAssociado  = compras.get(k).getAssociado().getNome();
                     dadosAssociado.add(new Chunk("Associado: " +compras.get(k).getAssociado().getNome()));
-                    id = compras.get(0).getAssociado().getId();
                     dadosAssociado.add(new Paragraph());
                 }
                 if (!nomeAssociado.equals(compras.get(k).getAssociado().getNome())){
+                    dadosAssociado.add(new Chunk("Total: " +tot));
                     dadosAssociado.add(new Paragraph());
                     dadosAssociado.add(new Paragraph());
                     nomeAssociado  = compras.get(k).getAssociado().getNome();
                     dadosAssociado.add(new Chunk("Associado: " +compras.get(k).getAssociado().getNome()));
                     dadosAssociado.add(new Paragraph());
+                    tot = 0.0;
                 }
                 tot += compras.get(k).getValor();
-                if ()
                 dadosAssociado.setAlignment(Element.ALIGN_LEFT);
                 dadosAssociado.add(compras.get(k).toString());
                 dadosAssociado.add(new Paragraph());
                 documentoPdf.add(dadosAssociado);
             }
-
-
-            compras.forEach(System.out::println);
+            dadosAssociado = new Paragraph();
+            dadosAssociado.add(new Chunk("Total: " +tot));
+            tot = 0.0;
+            documentoPdf.add(dadosAssociado);
+            // compras.forEach(System.out::println);
     
             Paragraph total = new Paragraph();
             total.setAlignment(Element.ALIGN_RIGHT);
