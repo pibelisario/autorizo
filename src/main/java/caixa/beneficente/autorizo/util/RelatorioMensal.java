@@ -71,68 +71,61 @@ public class RelatorioMensal {
 
     public void gerarCorpo() {
 
-
         List<Compra> compras;
         listaCompras.sort(Comparator.comparing(c -> c.getAssociado().getNome()));
-        Set<Long> ids = new HashSet<>();
-        
-        for (int i = 1; i < listaCompras.size(); i++){
+        Set<Long> ids = new HashSet<Long>();
+
+        for (int i = 1; i < listaCompras.size(); i++) {
             ids.add(listaCompras.get(i).getUsuario().getId());
         }
+        Long[] listId = new Long[ids.size()];
 
-        ids.forEach(System.out::println);
+        List<Long> listLong = new ArrayList<Long>(ids);
 
-        int id = 1;
+        for (int i = 0; i < ids.size(); i++) {
+            listId[i] = listLong.get(i);
+        }
 
-        for (int i = 0; i < ids.size(); i++){
+        for (int i = 0; i < ids.size(); i++) {
+            System.out.println(listId[i]);
+        }
+
+        for (int i = 0; i < listLong.size(); i++) {
             compras = new ArrayList<>();
+            Long id = listLong.get(i);
 
-            // for (Compra compra : listaCompras) {
-            //     System.out.println(compra.getAssociado().getNome());
-            // }
-    
             for (int j = 0; j < listaCompras.size(); j++) {
-                    if(listaCompras.get(j).getUsuario().getId() == id){
-                        compras.add(listaCompras.get(j));
-                    }
+                if (listaCompras.get(j).getUsuario().getId() == id) {
+                    compras.add(listaCompras.get(j));
+                }
             }
-    
+
             Paragraph nomeFarmacia = new Paragraph();
             nomeFarmacia.setAlignment(Element.ALIGN_CENTER);
             nomeFarmacia.add(new Chunk(compras.get(0).getUsuario().getNome()));
             nomeFarmacia.add(new Paragraph());
             nomeFarmacia.add(new Paragraph());
             documentoPdf.add(nomeFarmacia);
-    
-            compras.sort((c1,c2) -> c1.getAssociado().getNome().compareTo(c2.getAssociado().getNome()));
-    
-            // for (int k = 0; k < compras.size(); k++){
-            //     Paragraph dadosAssociado = new Paragraph();
-            //     dadosAssociado.setAlignment(Element.ALIGN_LEFT);
-            //     dadosAssociado.add(new Chunk("Nome Associado: " +compras.get(k).getAssociado().getNome()));
-            //         dadosAssociado.add(new Paragraph());
-            //     dadosAssociado.add(new Chunk("Compra " + (k+1) + ": " + compras.get(k).getDataCompra() +
-            //                     " - Valor R$: " + compras.get(k).getValor()));
-            //     dadosAssociado.add(new Paragraph());
-            //     documentoPdf.add(dadosAssociado);
-            // }
+
+            compras.sort((c1, c2) -> c1.getAssociado().getNome().compareTo(c2.getAssociado().getNome()));
 
             String nomeAssociado = null;
             Double tot = 0.0;
             Paragraph dadosAssociado;
-            for (int k = 0; k < compras.size(); k++){
+            for (int k = 0; k < compras.size(); k++) {
+
                 dadosAssociado = new Paragraph();
-                if (k == 0){
-                    nomeAssociado  = compras.get(k).getAssociado().getNome();
-                    dadosAssociado.add(new Chunk("Associado: " +compras.get(k).getAssociado().getNome()));
+                if (k == 0) {
+                    nomeAssociado = compras.get(k).getAssociado().getNome();
+                    dadosAssociado.add(new Chunk("Associado: " + compras.get(k).getAssociado().getNome()));
                     dadosAssociado.add(new Paragraph());
                 }
-                if (!nomeAssociado.equals(compras.get(k).getAssociado().getNome())){
-                    dadosAssociado.add(new Chunk("Total: " +tot));
+                if (!nomeAssociado.equals(compras.get(k).getAssociado().getNome())) {
+                    dadosAssociado.add(new Chunk("Total: " + tot));
                     dadosAssociado.add(new Paragraph());
                     dadosAssociado.add(new Paragraph());
-                    nomeAssociado  = compras.get(k).getAssociado().getNome();
-                    dadosAssociado.add(new Chunk("Associado: " +compras.get(k).getAssociado().getNome()));
+                    nomeAssociado = compras.get(k).getAssociado().getNome();
+                    dadosAssociado.add(new Chunk("Associado: " + compras.get(k).getAssociado().getNome()));
                     dadosAssociado.add(new Paragraph());
                     tot = 0.0;
                 }
@@ -143,17 +136,16 @@ public class RelatorioMensal {
                 documentoPdf.add(dadosAssociado);
             }
             dadosAssociado = new Paragraph();
-            dadosAssociado.add(new Chunk("Total: " +tot));
+            dadosAssociado.add(new Chunk("Total: " + tot));
             tot = 0.0;
             documentoPdf.add(dadosAssociado);
-            // compras.forEach(System.out::println);
-    
+
             Paragraph total = new Paragraph();
             total.setAlignment(Element.ALIGN_RIGHT);
-            total.add(new Chunk("Total: " +compras.stream().map(c -> c.getValor()).reduce(0.0, (x,y) -> x +y), new Font(Font.BOLD, 14)));
+            total.add(new Chunk("Total: " + compras.stream().map(c -> c.getValor()).reduce(0.0, (x, y) -> x + y),
+                    new Font(Font.BOLD, 14)));
             documentoPdf.add(total);
 
-            id++;
             compras = null;
         }
 
