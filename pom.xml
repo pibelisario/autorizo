@@ -16,7 +16,9 @@
 	<description>Programa para verificar situação financeira de associado</description>
 	<properties>
 		<java.version>17</java.version>
+		<main.class>caixa.beneficente.autorizo.Main</main.class>
 	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -80,12 +82,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--		<dependency>-->
-		<!--			<groupId>org.springframework.security</groupId>-->
-		<!--			<artifactId>spring-security-test</artifactId>-->
-		<!--			<scope>test</scope>-->
-		<!--		</dependency>-->
-
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
@@ -106,6 +102,59 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- Plugins para OpenPdf -->
+			<!-- Set a JDK compiler level -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
+
+            <!-- Make this jar executable -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- Jar file entry point -->
+                            <mainClass>caixa.beneficente.autorizo.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- This plugin is needed to create the self contained jar,
+                it means the -jar-with-dependencies.jar that can be executed
+                with java -jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals> <goal>single</goal> </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>caixa.beneficente.autorizo.Main</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			
+			
 		</plugins>
 	</build>
 

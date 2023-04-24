@@ -23,7 +23,7 @@ public class AssociadoController {
 
     @GetMapping("/listarTodos")
     public ModelAndView findAll() {
-        ModelAndView mv = new ModelAndView("/associado/listaAssociados");
+        ModelAndView mv = new ModelAndView("associado/listaAssociados");
         mv.addObject("associados", associadoService.findAll());
         return mv;
     }
@@ -54,7 +54,7 @@ public class AssociadoController {
 
     @PostMapping("/buscarCpf")
     public ModelAndView buscarCpf(@RequestParam("cpf") String cpf) {
-        ModelAndView mv = new ModelAndView("/associado/pesquisar");
+        ModelAndView mv = new ModelAndView("associado/pesquisar");
         List<Associado> associados = associadoService.findByCpf(cpf);
         if (associados.isEmpty()) {
             mv.addObject("mensagem", "Nenhum registro encontrado para o CPF: " + cpf);

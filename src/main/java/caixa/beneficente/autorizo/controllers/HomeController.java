@@ -24,7 +24,7 @@ public class HomeController {
 
     @GetMapping("/pesquisar")
     public ModelAndView pesquisaAssociado() {
-        ModelAndView mv = new ModelAndView("/associado/pesquisar");
+        ModelAndView mv = new ModelAndView("associado/pesquisar");
         // mv.addObject("associados", associadoService.findAll());
         return mv;
     }
