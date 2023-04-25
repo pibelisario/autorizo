@@ -32,23 +32,24 @@ public class RelatorioMensal {
     private Associado associado;
     private List<Compra> listaCompras;
     private Document documentoPdf;
-    private String caminhoRelatorio = "relatorios/RelatorioMensal.pdf";
     private LocalDate dataReferencia = LocalDate.now();
     int ano = dataReferencia.getYear();
     Month mes = dataReferencia.getMonth();
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
 
-    public RelatorioMensal() throws DocumentException, FileNotFoundException {
-        this.documentoPdf = new Document();
-        PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
-        this.documentoPdf.open();
-    }
+    // public RelatorioMensal() throws DocumentException, FileNotFoundException {
+    // this.documentoPdf = new Document();
+    // PdfWriter.getInstance(documentoPdf, pdfOutputFile);
+    // this.documentoPdf.open();
+    // }
 
     public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
             FileNotFoundException {
+        FileOutputStream pdfOutputFile = new FileOutputStream("C:\\Workspace\\autorizo\\src\\relatorios\\sample1.pdf");
+
         this.listaCompras = listaCompras;
         this.documentoPdf = new Document();
-        PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
+        PdfWriter.getInstance(documentoPdf, pdfOutputFile);
         this.documentoPdf.open();
         listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
                 .compareTo(c2.getAssociado().getNome().toUpperCase()));

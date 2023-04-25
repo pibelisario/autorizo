@@ -16,6 +16,11 @@
 	<description>Programa para verificar situação financeira de associado</description>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<jdk.version>17</jdk.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<main.class>caixa.beneficente.autorizo.AutorizoApplication</main.class>
 	</properties>
 
 	<dependencies>
