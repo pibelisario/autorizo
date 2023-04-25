@@ -16,7 +16,11 @@
 	<description>Programa para verificar situação financeira de associado</description>
 	<properties>
 		<java.version>17</java.version>
-		<main.class>caixa.beneficente.autorizo.Main</main.class>
+		<maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <jdk.version>17</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<main.class>caixa.beneficente.autorizo.AutorizoApplication</main.class>
 	</properties>
 
 	<dependencies>
@@ -71,7 +75,7 @@
 			<groupId>com.github.librepdf</groupId>
 			<artifactId>openpdf</artifactId>
 			<version>1.3.30</version>
-		  </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -103,11 +107,11 @@
 				</configuration>
 			</plugin>
 
-			<!-- Plugins para OpenPdf -->
 			<!-- Set a JDK compiler level -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
@@ -119,11 +123,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>caixa.beneficente.autorizo.Main</mainClass>
+                            <mainClass>caixa.beneficente.autorizo.AutorizoApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -135,6 +140,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <executions>
                     <execution>
                         <id>make-assembly</id>
@@ -143,7 +149,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>caixa.beneficente.autorizo.Main</mainClass>
+                                    <mainClass>caixa.beneficente.autorizo.AutorizoApplication</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -154,7 +160,8 @@
                 </executions>
             </plugin>
 			
-			
+
+
 		</plugins>
 	</build>
 
