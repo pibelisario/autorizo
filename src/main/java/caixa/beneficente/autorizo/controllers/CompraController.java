@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,7 +76,8 @@ public class CompraController {
 
         compraService.gerarRelatorioMensal();
 
-        // byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioMensal.pdf"));
+        // byte[] arquivo =
+        // Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioMensal.pdf"));
         byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\RelatorioMensal.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
