@@ -1,6 +1,7 @@
 package caixa.beneficente.autorizo.services;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,11 +60,12 @@ public class CompraService {
 
     }
 
-    public void gerarRelatorioMensal() throws DocumentException, FileNotFoundException {
-        List<Compra> compras = compraRepository.findAll();
-        RelatorioMensal relatorioMensal = new RelatorioMensal(compras);
+    public void gerarRelatorioMensal() throws DocumentException, IOException {
+        RelatorioMensal relatorioMensal = new RelatorioMensal(compraRepository.findAll());
         relatorioMensal.gerarCabecalho();
         relatorioMensal.gerarCorpo();
+        relatorioMensal.gerarMetadados();
+        relatorioMensal.onEndPage();
         relatorioMensal.imprimirRelaotrio();
     }
 

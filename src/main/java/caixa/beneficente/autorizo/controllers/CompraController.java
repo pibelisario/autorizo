@@ -75,15 +75,8 @@ public class CompraController {
     @GetMapping("/downloadRelatorioMensal")
     public HttpEntity<byte[]> download() throws IOException {
 
-        // compraService.gerarRelatorioMensal();
-        List<Compra> compras = compraRepository.findAll();
-        RelatorioMensal relatorioMensal = new RelatorioMensal(compras);
-        relatorioMensal.gerarCabecalho();
-        relatorioMensal.gerarCorpo();
-        relatorioMensal.imprimirRelaotrio();
+        compraService.gerarRelatorioMensal();
 
-        // byte[] arquivo =
-        // Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\relatorios\\RelatorioMensal.pdf"));
         byte[] arquivo = Files.readAllBytes(Paths.get("C:\\Workspace\\autorizo\\src\\relatorios\\sample1.pdf"));
 
         org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
