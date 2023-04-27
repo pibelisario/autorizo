@@ -15,7 +15,6 @@ import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.repositories.UsuarioRepository;
-import caixa.beneficente.autorizo.util.AddPageNumbers;
 import caixa.beneficente.autorizo.util.Relatorio;
 import caixa.beneficente.autorizo.util.RelatorioMensal;
 
