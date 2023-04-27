@@ -21,13 +21,10 @@ import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
-import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 import caixa.beneficente.autorizo.models.Associado;
@@ -51,18 +48,16 @@ public class RelatorioMensal {
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
     private PdfGState gstate;
     private PdfWriter pdfWriter;
-    public BaseFont helv;
-    public PdfTemplate tpl;
 
     public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
             IOException {
         // Criando arquivo de saida
-        this.pdfOutputFile = new FileOutputStream("C:\\Workspace\\autorizo\\src\\relatorios\\sample1.pdf");
+        this.pdfOutputFile = new FileOutputStream("C:\\Workspace\\autorizo\\src\\relatorios\\RelatorioMensal.pdf");
         // Criando um novo mundo pdf e adicinando configurações
         this.documentoPdf = new Document(PageSize.A4,
                 40f, // left
                 40f, // right
-                150f, // top
+                10f, // top
                 50f); // down
 
         this.listaCompras = listaCompras;
@@ -78,8 +73,6 @@ public class RelatorioMensal {
         listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
                 .compareTo(c2.getAssociado().getNome().toUpperCase()));
 
-        helv = BaseFont.createFont("Helvetica", BaseFont.WINANSI, false);
-        tpl = pdfWriter.getDirectContent().createTemplate(100, 100);
     }
 
     public void gerarCabecalho() throws BadElementException, IOException {
@@ -211,57 +204,15 @@ public class RelatorioMensal {
         documentoPdf.addAuthor("Paulo Inácio Belisario de Noronha");
     }
 
-    // public void onEndPage() {
-    // PdfContentByte cb = pdfWriter.getDirectContent();
-    // cb.saveState();
-    // // compose the footer
-    // String text = "Page " + pdfWriter.getPageNumber();
-    // float textSize = helv.getWidthPoint(text, 12);
-    // float textBase = documentoPdf.bottom() - 20;
-    // cb.beginText();
-    // cb.setFontAndSize(helv, 12);
-    // // for odd pagenumbers, show the footer at the left
-    // cb.setTextMatrix(documentoPdf.left(), textBase);
-    // cb.showText(text);
-    // cb.endText();
-    // cb.addTemplate(tpl, documentoPdf.left() + textSize, textBase);
-    // cb.restoreState();
-    // cb.sanityCheck();
-    // }
-
-    // public void onEndPage() {
-    // PdfContentByte cb = pdfWriter.getDirectContent();
-    // cb.saveState();
-    // // compose the footer
-    // String text = "Page " + pdfWriter.getPageNumber() + " of ";
-    // float textSize = helv.getWidthPoint(text, 12);
-    // float textBase = documentoPdf.bottom() - 20;
-    // cb.beginText();
-    // cb.setFontAndSize(helv, 12);
-    // // for odd pagenumbers, show the footer at the left
-    // cb.setTextMatrix(documentoPdf.left(), textBase);
-    // cb.showText(text);
-    // cb.endText();
-    // cb.addTemplate(tpl, documentoPdf.left() + textSize, textBase);
-
-    // cb.saveState();
-    // // draw a Rectangle around the page
-    // cb.setColorStroke(Color.orange);
-    // cb.setLineWidth(2);
-    // cb.rectangle(20, 20, documentoPdf.getPageSize().getWidth() - 40,
-    // documentoPdf.getPageSize().getHeight() - 40);
-    // cb.stroke();
-    // cb.restoreState();
-    // cb.restoreState();
-    // cb.sanityCheck();
-    // }
-
-    public void onEndPage() throws IOException {
-        PdfReader reader = new PdfReader("C:\\Workspace\\autorizo\\src\\relatorios\\sample1.pdf");
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("sample12.pdf"));
+    public void addPageNumber() throws IOException {
+        PdfReader reader = new PdfReader("C:\\Workspace\\autorizo\\src\\relatorios\\RelatorioMensal.pdf");
+        PdfStamper stamper = new PdfStamper(reader,
+                new FileOutputStream("C:\\Workspace\\autorizo\\src\\relatorios\\RelatorioMensalPag.pdf"));
         stamper.setRotateContents(false);
-        Phrase t = new Phrase("Total pages " + reader.getNumberOfPages(), new Font(Font.HELVETICA, 14));
         for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+            Phrase t = new Phrase("Pág: " + i + " de " + reader.getNumberOfPages(),
+                    new Font(Font.HELVETICA, 14));
+
             float xt = reader.getPageSize(i).getWidth() - 50;
             float yt = reader.getPageSize(i).getBottom(5);
             ColumnText.showTextAligned(

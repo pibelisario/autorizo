@@ -15,9 +15,9 @@ import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.repositories.UsuarioRepository;
+import caixa.beneficente.autorizo.util.AddPageNumbers;
 import caixa.beneficente.autorizo.util.Relatorio;
 import caixa.beneficente.autorizo.util.RelatorioMensal;
-import caixa.beneficente.autorizo.util.RelatorioMensalTeste;
 
 @Service
 public class CompraService {
@@ -65,8 +65,9 @@ public class CompraService {
         relatorioMensal.gerarCabecalho();
         relatorioMensal.gerarCorpo();
         relatorioMensal.gerarMetadados();
-        relatorioMensal.onEndPage();
         relatorioMensal.imprimirRelaotrio();
+        relatorioMensal.addPageNumber();
+        // new AddPageNumbers().addNumbers();
     }
 
     public double calcularTotal(Long id) {
