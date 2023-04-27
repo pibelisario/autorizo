@@ -66,7 +66,6 @@ public class CompraService {
         relatorioMensal.gerarMetadados();
         relatorioMensal.imprimirRelaotrio();
         relatorioMensal.addPageNumber();
-        // new AddPageNumbers().addNumbers();
     }
 
     public double calcularTotal(Long id) {

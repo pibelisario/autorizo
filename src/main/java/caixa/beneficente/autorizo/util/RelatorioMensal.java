@@ -3,6 +3,9 @@ package caixa.beneficente.autorizo.util;
 import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -48,6 +51,7 @@ public class RelatorioMensal {
     private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
     private PdfGState gstate;
     private PdfWriter pdfWriter;
+    private FormatValor df;
 
     public RelatorioMensal(List<Compra> listaCompras) throws DocumentException,
             IOException {
@@ -67,11 +71,12 @@ public class RelatorioMensal {
         // Inicializando contador de págs
         gstate = new PdfGState();
         gstate.setFillOpacity(0.3f);
-        gstate.setStrokeOpacity(0.3f);
+        // gstate.setStrokeOpacity(0.3f);
 
-        // Colocando as Listas em ordem alfabetica
-        listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
-                .compareTo(c2.getAssociado().getNome().toUpperCase()));
+        // // Colocando as Listas em ordem alfabetica
+        // listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
+        // .compareTo(c2.getAssociado().getNome().toUpperCase()));
+        this.df = new FormatValor();
 
     }
 
@@ -101,31 +106,39 @@ public class RelatorioMensal {
         listaCompras.sort(Comparator.comparing(c -> c.getAssociado().getNome()));
         Set<Long> ids = new HashSet<Long>();
 
+        // Criando uma lista com os numeros de ids das formacias que fizeram compras
         for (int i = 1; i < listaCompras.size(); i++) {
             ids.add(listaCompras.get(i).getUsuario().getId());
         }
+
         Long[] listId = new Long[ids.size()];
 
         List<Long> listLong = new ArrayList<Long>(ids);
 
+        // Adiciando o os numeros de ids dentro de um vetor com o mesmo tamanho da lista
         for (int i = 0; i < ids.size(); i++) {
             listId[i] = listLong.get(i);
         }
 
+        // Impirmento a lista de ids na tela
         for (int i = 0; i < ids.size(); i++) {
             System.out.println(listId[i]);
         }
 
+        // for principal para gerar o corpo com as informações
         for (int i = 0; i < listLong.size(); i++) {
             compras = new ArrayList<>();
             Long id = listLong.get(i);
 
+            // adicionando na lista compras as compras que foram feitas nas formacias com os
+            // ids igual ao selecionado no momento do for
             for (int j = 0; j < listaCompras.size(); j++) {
                 if (listaCompras.get(j).getUsuario().getId() == id) {
                     compras.add(listaCompras.get(j));
                 }
             }
 
+            // Adicionando informações da farmacia
             Paragraph nomeFarmacia = new Paragraph();
             nomeFarmacia.setAlignment(Element.ALIGN_CENTER);
             nomeFarmacia.add(new Chunk(compras.get(0).getUsuario().getNome()));
@@ -133,11 +146,13 @@ public class RelatorioMensal {
             nomeFarmacia.add(new Paragraph());
             documentoPdf.add(nomeFarmacia);
 
+            // Colocando a lista de compras em ordem alfabetica
             compras.sort((c1, c2) -> c1.getAssociado().getNome().compareTo(c2.getAssociado().getNome()));
 
             String nomeAssociado = null;
             Double tot = 0.0;
             Paragraph dadosAssociado;
+            // Adicionado o nome do associado e as compras feitas pelo mesmo
             for (int k = 0; k < compras.size(); k++) {
 
                 dadosAssociado = new Paragraph();
@@ -147,7 +162,11 @@ public class RelatorioMensal {
                     dadosAssociado.add(new Paragraph());
                 }
                 if (!nomeAssociado.equals(compras.get(k).getAssociado().getNome())) {
-                    dadosAssociado.add(new Chunk("Total: " + tot));
+                    dadosAssociado.add(new Chunk("Total: " + NumberFormat.getCurrencyInstance().format(tot)));
+                    dadosAssociado.add(new Paragraph());
+                    String qtdParc = (tot > 150 && tot <= 250 ? "2" : tot > 250 ? "3" : "1");
+                    dadosAssociado.add(
+                            new Chunk("Valor da parc: " + calcParc(tot) + " x " + qtdParc + " <=================="));
                     dadosAssociado.add(new Paragraph());
                     dadosAssociado.add(new Paragraph());
                     nomeAssociado = compras.get(k).getAssociado().getNome();
@@ -162,19 +181,41 @@ public class RelatorioMensal {
                 documentoPdf.add(dadosAssociado);
             }
             dadosAssociado = new Paragraph();
-            dadosAssociado.add(new Chunk("Total: " + tot));
+            dadosAssociado.add(new Chunk("Total: " + NumberFormat.getCurrencyInstance().format(tot)));
+            dadosAssociado.add(new Paragraph());
+            String qtdParc = (tot > 150 && tot <= 250 ? "2" : tot > 250 ? "3" : "1");
+            dadosAssociado.add(new Chunk("Valor da parc: " + calcParc(tot) + " x " + qtdParc + " <=================="));
             tot = 0.0;
             documentoPdf.add(dadosAssociado);
 
+            // Imprimindo no final do corpo o total de todas compras juntando todas as
+            // farmacias
             Paragraph total = new Paragraph();
             total.setAlignment(Element.ALIGN_RIGHT);
-            total.add(new Chunk("Total: " + compras.stream().map(c -> c.getValor()).reduce(0.0, (x, y) -> x + y),
+            total.add(new Chunk(
+                    "Total: " + NumberFormat.getCurrencyInstance()
+                            .format(compras.stream().map(c -> c.getValor()).reduce(0.0, (x, y) -> x + y)),
                     new Font(Font.BOLD, 14)));
+            dadosAssociado.add(new Paragraph());
             documentoPdf.add(total);
 
             compras = null;
         }
 
+    }
+
+    public String calcParc(Double tot) {
+        // DecimalFormat df = new DecimalFormat("###.##");
+        // df.setRoundingMode(RoundingMode.UP);
+        double parc = 0.0;
+        if (tot > 150 && tot <= 250) {
+            parc = tot / 2;
+        } else if (tot > 250) {
+            parc = tot / 3;
+        } else {
+            return df.formatValor(tot);
+        }
+        return df.formatValor(parc);
     }
 
     public void imprimirTotal(double total) {
