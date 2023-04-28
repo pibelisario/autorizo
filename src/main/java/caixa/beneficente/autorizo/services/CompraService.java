@@ -2,6 +2,8 @@ package caixa.beneficente.autorizo.services;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,11 +63,24 @@ public class CompraService {
 
     public void gerarRelatorioMensal() throws DocumentException, IOException {
         RelatorioMensal relatorioMensal = new RelatorioMensal(compraRepository.findAll());
-        relatorioMensal.gerarCabecalho();
+        relatorioMensal.gerarCabecalhoSemData();
         relatorioMensal.gerarCorpo();
         relatorioMensal.gerarMetadados();
         relatorioMensal.imprimirRelaotrio();
         relatorioMensal.addPageNumber();
+    }
+
+    public void gerarRelatorioPorData(String dataInicial, String dataFinal) throws DocumentException, IOException {
+        LocalDate dataI = LocalDate.parse(dataInicial, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate dataF = LocalDate.parse(dataFinal, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        RelatorioMensal relatorioMensal = new RelatorioMensal(
+                compraRepository.findComprasByDataCompraBetween(dataI, dataF));
+        relatorioMensal.gerarCabecalhoComData(dataI, dataF);
+        relatorioMensal.gerarCorpo();
+        relatorioMensal.gerarMetadados();
+        relatorioMensal.imprimirRelaotrio();
+        relatorioMensal.addPageNumber();
+
     }
 
     public double calcularTotal(Long id) {

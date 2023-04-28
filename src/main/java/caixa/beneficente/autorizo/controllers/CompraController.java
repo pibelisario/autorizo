@@ -3,7 +3,6 @@ package caixa.beneficente.autorizo.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -14,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lowagie.text.DocumentException;
+
 import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.services.AssociadoService;
 import caixa.beneficente.autorizo.services.CompraService;
-import caixa.beneficente.autorizo.util.RelatorioMensal;
 
 @RestController
 public class CompraController {
@@ -37,6 +37,13 @@ public class CompraController {
         mv.addObject("compras", compraRepository.findByCompraId(id));
         mv.addObject("totalCompras", compraService.calcularTotal(id));
         return mv;
+    }
+
+    @GetMapping("excluirCompra/{id}")
+    public ModelAndView excluirCompra(@PathVariable("id") Long id) {
+        Compra compra = compraRepository.findById(id).get();
+        compraRepository.deleteById(id);
+        return compras(compra.getAssociado().getId());
     }
 
     @PostMapping("lancarCompra/{id}")
@@ -70,6 +77,28 @@ public class CompraController {
     public ModelAndView downloadRelatorioMensal() {
         ModelAndView mv = new ModelAndView("associado/relatorioMensal");
         return mv;
+    }
+
+    @GetMapping("/downloadRelatorioPorData")
+    public HttpEntity<byte[]> gerarRelatorioPorData(@RequestParam("dataInicial") String dataInicial,
+            @RequestParam("dataFinal") String dataFinal) throws DocumentException, IOException {
+
+        compraService.gerarRelatorioPorData(dataInicial, dataFinal);
+
+        byte[] arquivo = Files
+                .readAllBytes(Paths.get("C:\\Workspace\\autorizo\\src\\relatorios\\RelatorioMensalPag.pdf"));
+
+        org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();
+
+        httpHeaders.add("Content-Disposition",
+                "attachment;filename=\"relatorioMensal.pdf\"");
+
+        HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
+
+        System.out.println("Passei aqui");
+
+        return entity;
+
     }
 
     @GetMapping("/downloadRelatorioMensal")

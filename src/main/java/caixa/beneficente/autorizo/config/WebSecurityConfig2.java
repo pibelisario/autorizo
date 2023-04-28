@@ -59,7 +59,7 @@ public class WebSecurityConfig2 {
                     authorizeConfig.requestMatchers("/img/**").permitAll();
                     authorizeConfig.requestMatchers("/js/**").permitAll();
                     authorizeConfig.requestMatchers("/").permitAll();
-                    authorizeConfig.requestMatchers("/adm").permitAll();
+                    // authorizeConfig.requestMatchers("/adm").permitAll();
                     authorizeConfig.requestMatchers("compras/{id}").hasRole("ADMIN");
                     authorizeConfig.anyRequest().authenticated();
                 });

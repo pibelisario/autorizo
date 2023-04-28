@@ -37,10 +37,12 @@
                   <label class="form-label" for="cidade">Cidade</label>
                   <input autocomplete="off" class="form-control" id="cidade" disabled="" th:field="*{cidade}">
                 </div>
-                <div class="input-fiel col s6">
+                <!-- <div class="input-fiel col s6">
                   <label class="form-label" for="limite">Limite Disponivel</label>
+                  th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"
                   <input autocomplete="off" class="form-control" id="limite" disabled="" th:field="*{limite}">
-                </div>
+                  <input autocomplete="off" class="form-control" id="limite" disabled="" th:field="*{#numbers.formatDecimal(limite, 0, 'POINT', 2, 'COMMA')}">
+                </div> -->
               </div>
             </form>
           </div>
@@ -74,6 +76,8 @@
                                 <th>Data:</th>
                                 <th>Valor:</th>
                                 <th>Local: </th>
+                                <!-- <th></th> -->
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -81,21 +85,23 @@
                                 <td th:text="${compra.dataCompra}"></td>
                                 <td th:text="${compra.valor}"></td>
                                 <td th:text="${compra.usuario.nome}"></td>
+                                <!-- <td><a href="#" class="btn btn-primary">Editar</a></td> -->
+                                <td><a th:href="@{/excluirCompra/{id}(id=${compra.id})}" class="btn btn-danger">Excluir</a></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div style="text-align: center;">
-                      <h3>Total em compras R$: <span th:text="${totalCompras}"></span> - Limite disponivel R$: <span th:text="${associado.limite}"></span></h3>
+                      <h3>Total em compras R$: <span th:text="${#numbers.formatDecimal(totalCompras, 0, 'POINT', 2, 'COMMA')}"></span> - Limite disponivel R$: <span th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"></span></h3>
                     </div>
                 </div>
             </div>
         </div>
+        <form th:action="@{/download}" method="get">
+          <input type="hidden" th:field="${associado.id}">
+          <button class="btn btn-warning">Gerar Relatório</button>
+        </form>
           <a class="btn btn-danger" th:href="@{/pesquisar}">Voltar</a>
-          <form th:action="@{/download}" method="get">
-            <input type="hidden" th:field="${associado.id}">
-            <button class="btn btn-warning">Gerar Relatório</button>
-          </form>
         </div>
       </div>
     </div>

@@ -45,10 +45,6 @@ public class RelatorioMensal {
     private List<Compra> listaCompras;
     private Document documentoPdf;
     FileOutputStream pdfOutputFile;
-    private LocalDate dataReferencia = LocalDate.now();
-    int ano = dataReferencia.getYear();
-    Month mes = dataReferencia.getMonth();
-    private LocalDate dataRelatorio = LocalDate.of(ano, mes, 25);
     private PdfGState gstate;
     private PdfWriter pdfWriter;
     private FormatValor df;
@@ -73,20 +69,34 @@ public class RelatorioMensal {
         gstate.setFillOpacity(0.3f);
         // gstate.setStrokeOpacity(0.3f);
 
-        // // Colocando as Listas em ordem alfabetica
-        // listaCompras.sort((c1, c2) -> c1.getAssociado().getNome().toUpperCase()
-        // .compareTo(c2.getAssociado().getNome().toUpperCase()));
         this.df = new FormatValor();
 
     }
 
-    public void gerarCabecalho() throws BadElementException, IOException {
+    public void gerarCabecalhoSemData() throws BadElementException, IOException {
         Paragraph cabecalho = new Paragraph();
         cabecalho.setAlignment(Element.ALIGN_CENTER);
         adicionarImagemCabecalho();
         cabecalho.add(new Paragraph(""));
         cabecalho.add(new Paragraph(""));
-        cabecalho.add(new Chunk("Relatório do mês " + dataReferencia.getMonthValue() + " ,dias: 01 até 25",
+        cabecalho.add(new Chunk("Relatorio Geral todas as Vendas",
+                new Font(Font.NORMAL, 16f, Font.BOLDITALIC, Color.black)));
+        cabecalho.add(new Paragraph(""));
+        cabecalho.add(new Paragraph(""));
+        this.documentoPdf.add(cabecalho);
+
+    }
+
+    public void gerarCabecalhoComData(LocalDate dataInicial, LocalDate dataFinal)
+            throws BadElementException, IOException {
+        Paragraph cabecalho = new Paragraph();
+        cabecalho.setAlignment(Element.ALIGN_CENTER);
+        adicionarImagemCabecalho();
+        cabecalho.add(new Paragraph(""));
+        cabecalho.add(new Paragraph(""));
+        cabecalho.add(new Chunk(
+                "Relatorio de Vendas dias: " + new FormatDate().formatarData(dataInicial) + " ao "
+                        + new FormatDate().formatarData(dataFinal),
                 new Font(Font.NORMAL, 16f, Font.BOLDITALIC, Color.black)));
         cabecalho.add(new Paragraph(""));
         cabecalho.add(new Paragraph(""));
@@ -205,8 +215,6 @@ public class RelatorioMensal {
     }
 
     public String calcParc(Double tot) {
-        // DecimalFormat df = new DecimalFormat("###.##");
-        // df.setRoundingMode(RoundingMode.UP);
         double parc = 0.0;
         if (tot > 150 && tot <= 250) {
             parc = tot / 2;
