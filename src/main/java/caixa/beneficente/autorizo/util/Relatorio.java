@@ -9,7 +9,9 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfWriter;
 
 import caixa.beneficente.autorizo.models.Associado;
@@ -26,14 +28,27 @@ public class Relatorio {
     private Associado associado;
     private List<Compra> listaCompras;
     private Document documentoPdf;
-    private String caminhoRelatorio = "relatorios/RelatorioVendas.pdf";
+    FileOutputStream pdfOutputFile;
+    private PdfWriter pdfWriter;
+    private PdfGState gstate;
 
     public Relatorio(Associado associado, List<Compra> listaCompras) throws DocumentException, FileNotFoundException {
+        // Criando arquivo de saida
+        this.pdfOutputFile = new FileOutputStream("C:\\Workspace\\autorizo\\src\\relatorios\\RelatorioVendas.pdf");
+        // Criando um novo mundo pdf e adicinando configurações
+        this.documentoPdf = new Document(PageSize.A4,
+                40f, // left
+                40f, // right
+                10f, // top
+                50f); // down
         this.associado = associado;
         this.listaCompras = listaCompras;
-        this.documentoPdf = new Document();
-        PdfWriter.getInstance(documentoPdf, new FileOutputStream(caminhoRelatorio));
+        pdfWriter = PdfWriter.getInstance(documentoPdf, pdfOutputFile);
         this.documentoPdf.open();
+        // Inicializando contador de págs
+        gstate = new PdfGState();
+        gstate.setFillOpacity(0.3f);
+        // gstate.setStrokeOpacity(0.3f);
     }
 
     public void gerarCabecalho() {
@@ -76,19 +91,18 @@ public class Relatorio {
         this.documentoPdf.add(totalCompra);
     }
 
-    public void imprimirRelaotrio() {
-        if (this.documentoPdf != null || this.documentoPdf.isOpen()) {
-            this.documentoPdf.close();
-        }
-
-    }
-
     public double calcularTotal() {
         double total = 0;
         for (Compra compra : this.listaCompras) {
             total += compra.getValor();
         }
         return total;
+    }
+
+    public void imprimirRelaotrio() {
+        if (this.documentoPdf != null || this.documentoPdf.isOpen()) {
+            this.documentoPdf.close();
+        }
     }
 
 }

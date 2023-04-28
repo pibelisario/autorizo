@@ -52,9 +52,8 @@ public class CompraService {
     }
 
     public void gerarRelatorio(Long id) throws DocumentException, FileNotFoundException {
-        Associado associado = associadoRepository.findById(id).get();
-        List<Compra> compras = compraRepository.findByCompraId(id);
-        Relatorio relatorio = new Relatorio(associado, compras);
+        Relatorio relatorio = new Relatorio(associadoRepository.findById(id).get(),
+                compraRepository.findByCompraId(id));
         relatorio.gerarCabecalho();
         relatorio.gerarCorpo();
         relatorio.imprimirRelaotrio();
