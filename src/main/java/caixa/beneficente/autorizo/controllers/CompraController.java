@@ -3,6 +3,8 @@ package caixa.beneficente.autorizo.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -35,6 +37,11 @@ public class CompraController {
         ModelAndView mv = new ModelAndView("associado/compras");
         mv.addObject("associado", associadoService.findById(id));
         mv.addObject("compras", compraRepository.findByCompraId(id));
+        LocalDate dataI = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        LocalDate dataF = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 31);
+        System.out.println(dataI + "-" + dataF);
+        List<Compra> compras = compraRepository.findEntradasByDataBetweenAndAssociadoEqualsId(dataI, dataF, id);
+        mv.addObject("compras", compras);
         mv.addObject("totalCompras", compraService.calcularTotal(id));
         return mv;
     }

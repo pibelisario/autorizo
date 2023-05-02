@@ -82,11 +82,13 @@
                             </thead>
                             <tbody>
                             <tr th:each="compra : ${compras}">
-                                <td th:text="${compra.dataCompra}"></td>
+                                <!-- <td th:text="${#dates.format(compra.dataCompra, 'dd-MMM-yyyy HH:mm')}"></td> -->
+                                <td th:text="${#temporals.format(compra.dataCompra, 'dd-MM-yyyy')}"></td>
                                 <td th:text="${compra.valor}"></td>
                                 <td th:text="${compra.usuario.nome}"></td>
                                 <!-- <td><a href="#" class="btn btn-primary">Editar</a></td> -->
-                                <td><a th:href="@{/excluirCompra/{id}(id=${compra.id})}" class="btn btn-danger">Excluir</a></td>
+                                <td><a style="margin-top: 0px;" th:if="${compra.usuario.user} == ${#authentication.getPrincipal().getUsername()}"
+                                  th:href="@{/excluirCompra/{id}(id=${compra.id})}" class="btn btn-danger">Excluir</a></td>
                             </tr>
                             </tbody>
                         </table>
