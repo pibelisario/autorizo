@@ -82,8 +82,8 @@ public class CompraService {
     public void gerarRelatorioPorData(String dataInicial, String dataFinal) throws DocumentException, IOException {
         LocalDate dataI = LocalDate.parse(dataInicial, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate dataF = LocalDate.parse(dataFinal, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        RelatorioMensal relatorioMensal = new RelatorioMensal(
-                compraRepository.findComprasByDataCompraBetween(dataI, dataF));
+        List<Compra> compras = compraRepository.findComprasByDataCompraBetween(dataI, dataF);
+        RelatorioMensal relatorioMensal = new RelatorioMensal(compras);
         relatorioMensal.gerarCabecalhoComData(dataI, dataF);
         relatorioMensal.gerarCorpo();
         relatorioMensal.gerarMetadados();
