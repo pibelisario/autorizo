@@ -3,8 +3,6 @@ package caixa.beneficente.autorizo.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lowagie.text.DocumentException;
 
-import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
 import caixa.beneficente.autorizo.services.AssociadoService;
 import caixa.beneficente.autorizo.services.CompraService;
@@ -50,9 +47,9 @@ public class CompraController {
     }
 
     @PostMapping("lancarCompra/{id}")
-    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @RequestParam("idUser") String userName,
-            @PathVariable("id") Long id) {
-        compraService.salvar(valor, id, userName);
+    public ModelAndView lancarCompra(@RequestParam("valor") String valor, @RequestParam("numeroCupom") Long numeroCupom,
+            @RequestParam("idUser") String userName, @PathVariable("id") Long id) {
+        compraService.salvar(valor, id, userName, numeroCupom);
         return compras(id);
     }
 

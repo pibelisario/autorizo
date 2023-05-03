@@ -48,12 +48,15 @@
           <div class="containerr py-5 h-100" style="margin-top: 0px;">
             <div class="row d-flex justify-content-center align-items-center h-100">
               <div class="card row shadow-2-strong" style="border-radius: 1rem; width: 350px; justify-content: left;">
-                <h4 style="margin-top: 10px;">Valor a lançar R$:</h4>
+
                   <form th:action="@{/lancarCompra/{id}(id=${associado.id})}" method="post">
                     <input type="hidden" name="idUser" th:value="${#authentication.getPrincipal().getUsername()}">
+                    <h4 style="margin-top: 10px;">Valor a lançar R$:</h4>
                     <input type="text" class="form-control" name="valor" autocomplete="off" required placeholder="Digite aqui" onKeyPress="return(moeda(this,'.',',',event))"> 
+                    <h4><label for="numeroCupom">Numero do Cupom:</label></h4>
+                    <input type="text" class="form-control" name="numeroCupom" autocomplete="off" required placeholder="Digite aqui">
                     <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Lançar</button>
-                  </form>      
+                  </form>     
 
               </div>
             </div>
@@ -70,6 +73,7 @@
                                 <th>Data:</th>
                                 <th>Valor:</th>
                                 <th>Local: </th>
+                                <th>Numero do Cupom: </th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -78,6 +82,7 @@
                                 <td th:text="${#temporals.format(compra.dataCompra, 'dd-MM-yyyy')}"></td>
                                 <td th:text="${#numbers.formatDecimal(compra.valor, 0, 'POINT', 2, 'COMMA')}"></td>
                                 <td th:text="${compra.usuario.nome}"></td>
+                                <td th:text="${compra.numeroCupom}"></td>
                                 <td><a style="margin-top: 0px;" 
                                   th:data-confirm-delete="|Você tem certeza que deseja excluir a compra de: ${compra.associado.nome} de R$ ${#numbers.formatDecimal(compra.valor, 0, 'POINT', 2, 'COMMA')}?|"
                                                             onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
@@ -87,7 +92,8 @@
                         </table>
                     </div>
                     <div style="text-align: center;">
-                      <h3>Total em compras R$: <span th:text="${#numbers.formatDecimal(totalCompras, 0, 'POINT', 2, 'COMMA')}"></span> - Limite disponivel R$: <span th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"></span></h3>
+                      <!-- <h3>Total em compras R$: <span th:text="${#numbers.formatDecimal(totalCompras, 0, 'POINT', 2, 'COMMA')}"></span> - Limite disponivel R$: <span th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"></span></h3> -->
+                      <h3 style="color: blue;">Limite disponivel R$: <span th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"></span></h3>
                     </div>
                 </div>
             </div>

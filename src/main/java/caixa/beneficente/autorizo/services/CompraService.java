@@ -47,7 +47,7 @@ public class CompraService {
         return compras;
     }
 
-    public void salvar(String valor, Long id, String userName) {
+    public void salvar(String valor, Long id, String userName, Long numeroCupom) {
         valor = valor.replace(".", "");
         valor = valor.replace(",", ".");
         double vDouble = Double.valueOf(valor).doubleValue();
@@ -56,6 +56,7 @@ public class CompraService {
         compra.setValor(vDouble);
         compra.setAssociado(associadoService.findById(id));
         compra.setUsuario(usuarioRepository.findByUser(userName).get());
+        compra.setNumeroCupom(numeroCupom);
         compraRepository.save(compra);
         associadoService.ajustarLimite(vDouble, id);
     }

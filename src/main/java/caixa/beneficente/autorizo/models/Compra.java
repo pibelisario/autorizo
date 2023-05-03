@@ -21,6 +21,7 @@ public class Compra {
     private Long id;
     private Double valor;
     private LocalDate dataCompra = LocalDate.now();
+    private Long NumeroCupom;
 
     @OneToOne
     @JoinColumn(name = "usuario_id")
