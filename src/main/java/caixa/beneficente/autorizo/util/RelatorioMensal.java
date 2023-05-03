@@ -117,7 +117,7 @@ public class RelatorioMensal {
         Set<Long> ids = new HashSet<Long>();
 
         // Criando uma lista com os numeros de ids das formacias que fizeram compras
-        for (int i = 1; i < listaCompras.size(); i++) {
+        for (int i = 0; i < listaCompras.size(); i++) {
             ids.add(listaCompras.get(i).getUsuario().getId());
         }
 
