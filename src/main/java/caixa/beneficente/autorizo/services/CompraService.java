@@ -37,6 +37,14 @@ public class CompraService {
         return compras;
     }
 
+    public List<Compra> findAllData(Long id) {
+        LocalDate dataI = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        LocalDate dataF = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(),
+                LocalDate.now().lengthOfMonth());
+        List<Compra> compras = compraRepository.findEntradasByDataBetweenAndAssociadoEqualsId(dataI, dataF, id);
+        return compras;
+    }
+
     public void salvar(String valor, Long id, String userName) {
         valor = valor.replace(".", "");
         valor = valor.replace(",", ".");

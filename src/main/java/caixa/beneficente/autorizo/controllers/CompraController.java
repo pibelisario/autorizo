@@ -37,11 +37,7 @@ public class CompraController {
         ModelAndView mv = new ModelAndView("associado/compras");
         mv.addObject("associado", associadoService.findById(id));
         mv.addObject("compras", compraRepository.findByCompraId(id));
-        LocalDate dataI = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
-        LocalDate dataF = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 31);
-        System.out.println(dataI + "-" + dataF);
-        List<Compra> compras = compraRepository.findEntradasByDataBetweenAndAssociadoEqualsId(dataI, dataF, id);
-        mv.addObject("compras", compras);
+        mv.addObject("compras", compraService.findAllData(id));
         mv.addObject("totalCompras", compraService.calcularTotal(id));
         return mv;
     }
@@ -76,8 +72,6 @@ public class CompraController {
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
 
-        System.out.println("Passei aqui");
-
         return entity;
     }
 
@@ -103,8 +97,6 @@ public class CompraController {
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
 
-        System.out.println("Passei aqui");
-
         return entity;
 
     }
@@ -123,8 +115,6 @@ public class CompraController {
                 "attachment;filename=\"relatorioMensal.pdf\"");
 
         HttpEntity<byte[]> entity = new HttpEntity<byte[]>(arquivo, httpHeaders);
-
-        System.out.println("Passei aqui");
 
         return entity;
     }
