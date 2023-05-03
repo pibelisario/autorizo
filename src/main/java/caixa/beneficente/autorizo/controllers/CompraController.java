@@ -44,9 +44,9 @@ public class CompraController {
 
     @GetMapping("excluirCompra/{id}")
     public ModelAndView excluirCompra(@PathVariable("id") Long id) {
-        Compra compra = compraRepository.findById(id).get();
-        compraRepository.deleteById(id);
-        return compras(compra.getAssociado().getId());
+        long idAssociado = compraRepository.findById(id).get().getAssociado().getId();
+        compraService.deleteById(id);
+        return compras(idAssociado);
     }
 
     @PostMapping("lancarCompra/{id}")

@@ -21,7 +21,7 @@
           <h4>Dados do Associado</h4>
           <div class="row">
             <form class="col s12" method="post" th:object="${associado}">
-                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <div class="row">
                 <div class="input-fiel col s6">
                   <label class="form-label" for="nome">Nome</label>
@@ -37,12 +37,10 @@
                   <label class="form-label" for="cidade">Cidade</label>
                   <input autocomplete="off" class="form-control" id="cidade" disabled="" th:field="*{cidade}">
                 </div>
-                <!-- <div class="input-fiel col s6">
+                <div class="input-fiel col s6">
                   <label class="form-label" for="limite">Limite Disponivel</label>
-                  th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"
-                  <input autocomplete="off" class="form-control" id="limite" disabled="" th:field="*{limite}">
-                  <input autocomplete="off" class="form-control" id="limite" disabled="" th:field="*{#numbers.formatDecimal(limite, 0, 'POINT', 2, 'COMMA')}">
-                </div> -->
+                  <p autocomplete="off" class="form-control" id="limite" disabled="" th:text="*{#numbers.formatDecimal(limite, 0, 'POINT', 2, 'COMMA')}"></p>
+                </div>
               </div>
             </form>
           </div>
@@ -52,11 +50,7 @@
               <div class="card row shadow-2-strong" style="border-radius: 1rem; width: 350px; justify-content: left;">
                 <h4 style="margin-top: 10px;">Valor a lançar R$:</h4>
                   <form th:action="@{/lancarCompra/{id}(id=${associado.id})}" method="post">
-                    <!-- <form th:action="@{/lancarCompra/(idUser = ${#authentication.getPrincipal().getUsername()}, id =${associado.id  }) }" method="get"> -->
-                    <!-- /{idUser}(idUser=${${#authentication.getPrincipal().getUsername()}) -->
-                    <!-- <input type="hidden" th:field="*{id}"> -->
                     <input type="hidden" name="idUser" th:value="${#authentication.getPrincipal().getUsername()}">
-                    <!-- <span th:text="${#authentication.getPrincipal().getUsername()}"></span> -->
                     <input type="text" class="form-control" name="valor" autocomplete="off" required placeholder="Digite aqui" onKeyPress="return(moeda(this,'.',',',event))"> 
                     <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Lançar</button>
                   </form>      
@@ -76,18 +70,17 @@
                                 <th>Data:</th>
                                 <th>Valor:</th>
                                 <th>Local: </th>
-                                <!-- <th></th> -->
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="compra : ${compras}">
-                                <!-- <td th:text="${#dates.format(compra.dataCompra, 'dd-MMM-yyyy HH:mm')}"></td> -->
+                            <tr th:each="compra : ${compras}" th:if="${compra.usuario.user} == ${#authentication.getPrincipal().getUsername()}">
                                 <td th:text="${#temporals.format(compra.dataCompra, 'dd-MM-yyyy')}"></td>
-                                <td th:text="${compra.valor}"></td>
+                                <td th:text="${#numbers.formatDecimal(compra.valor, 0, 'POINT', 2, 'COMMA')}"></td>
                                 <td th:text="${compra.usuario.nome}"></td>
-                                <!-- <td><a href="#" class="btn btn-primary">Editar</a></td> -->
-                                <td><a style="margin-top: 0px;" th:if="${compra.usuario.user} == ${#authentication.getPrincipal().getUsername()}"
+                                <td><a style="margin-top: 0px;" 
+                                  th:data-confirm-delete="|Você tem certeza que deseja excluir a compra de: ${compra.associado.nome} de R$ ${#numbers.formatDecimal(compra.valor, 0, 'POINT', 2, 'COMMA')}?|"
+                                                            onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
                                   th:href="@{/excluirCompra/{id}(id=${compra.id})}" class="btn btn-danger">Excluir</a></td>
                             </tr>
                             </tbody>

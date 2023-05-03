@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.lowagie.text.DocumentException;
 
+import caixa.beneficente.autorizo.models.Associado;
 import caixa.beneficente.autorizo.models.Compra;
 import caixa.beneficente.autorizo.repositories.AssociadoRepository;
 import caixa.beneficente.autorizo.repositories.CompraRepository;
@@ -31,6 +32,10 @@ public class CompraService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    LocalDate dataI = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+    LocalDate dataF = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(),
+            LocalDate.now().lengthOfMonth());
+
     public List<Compra> findAll() {
         List<Compra> compras = compraRepository.findAll();
         Collections.reverse(compras);
@@ -38,9 +43,6 @@ public class CompraService {
     }
 
     public List<Compra> findAllData(Long id) {
-        LocalDate dataI = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
-        LocalDate dataF = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(),
-                LocalDate.now().lengthOfMonth());
         List<Compra> compras = compraRepository.findEntradasByDataBetweenAndAssociadoEqualsId(dataI, dataF, id);
         return compras;
     }
@@ -91,10 +93,17 @@ public class CompraService {
 
     public double calcularTotal(Long id) {
         double total = 0;
-        for (Compra compra : compraRepository.findByCompraId(id)) {
+        for (Compra compra : compraRepository.findEntradasByDataBetweenAndAssociadoEqualsId(dataI, dataF, id)) {
             total += compra.getValor();
         }
         return total;
+    }
+
+    public void deleteById(Long id) {
+        Compra compra = compraRepository.findById(id).get();
+        Associado associado = compra.getAssociado();
+        associado.setLimite(associado.getLimite() + compra.getValor());
+        compraRepository.deleteById(id);
     }
 
 }
