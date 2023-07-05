@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pág Inicial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<!-- Cabeçalho -->
+<header th:replace="fragmentos/header :: header"></header>
+<!-- Seção -->
+<section class="vh-100" style="background-color: #042e7b;">
+    <!--Tela de busca-->
+    <div class="container py-5 h-100">
+        <div>
+            <div class="card row shadow-2-strong back" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-left">
+                    <div class="row">
+<!--                        &lt;!&ndash; BUSCA POR RG &ndash;&gt;-->
+<!--                        <form action="buscarRg" method="post" id="buscarPorRg" class="col s3">-->
+<!--                            <label class="label" for="rg">Buscar Rg: </label>-->
+<!--                            <input class="form-control" type="text" id="rg" name="rg" required-->
+<!--                                   placeholder="Digite rg sem pontos" autofocus="autofocus">-->
+<!--                            <button type="submit" class="btn btn-primary btnn">Buscar</button>-->
+<!--                        </form>-->
+                        <!-- BUSCA POR NOME -->
+<!--                        <form action="buscarNome" method="post" id="buscarPorNome" class="col s3">-->
+<!--                            <label class="label" for="nome">Buscar Nome: </label>-->
+<!--                            <input class="form-control" type="text" id="nome" name="nome" required-->
+<!--                                   autofocus="autofocus">-->
+<!--                            <button type="submit" class="btn btn-primary btnn">Buscar</button>-->
+<!--                        </form>-->
+                        <!-- BUSCA POR CPF -->
+                        <form action="buscarCpf" method="post" id="buscarPorCpf" class="col s3">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <label class="label" for="cpf">Buscar Cpf: </label>
+                            <input class="form-control" type="text" id="cpf" name="cpf"
+                                   onkeyup="mascaraCpf('___.___.___-__', this)" required
+                                   placeholder="Digite cpf sem pontos" autofocus="autofocus">
+                            <button type="submit" class="btn btn-primary btnn">Buscar</button>
+                        </form>
+                    </div>
+                    <!--Mensagem de Erro-->
+                    <div class="containerr py-5 h-100" th:if="${not #strings.isEmpty(mensagem)}">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="card row shadow-2-strong" style="border-radius: 1rem;">
+                                <div th:text="${mensagem}"
+                                     th:if="${not #strings.isEmpty(mensagem)}" style="font-weight: bolder; color: red;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Mostra Associado-->
+                    <div class="containerr py-5 h-100" >
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="card row shadow-2-strong" style="border-radius: 1rem;">
+                                <div class="alert alert-danger" th:text="${mensagem}"
+                                     th:if="${not #strings.isEmpty(mensagem)}">
+                                </div>
+                                <div class="card-body p-5 text-left">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome:</th>
+                                            <th>Cpf:</th>
+                                            <th>Cidade:</th>
+                                            <th>Limite:</th>
+                                            <th>Situação:</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="associado : ${associados}">
+<!--                                            <td th:text="${associado.rg}"></td>-->
+                                            <td th:text="${associado.nome}"></td>
+                                            <td th:text="${associado.cpf}"></td>
+                                            <td th:text="${associado.cidade}"></td>
+                                            <td>R$ <span th:text="${#numbers.formatDecimal(associado.limite, 0, 'POINT', 2, 'COMMA')}"></span></td>
+                                            <td>
+                                                <span th:text="${associado.situacao}"
+                                                      th:classappend="${#strings.toString(associado.situacao) == 'LIBERADO' ? 'liberado' : 'bloqueado'}">
+                                                </span>
+                                            </td>
+                                            <td th:if="${associado.situacao == 'LIBERADO'}">
+                                                <a th:href="@{/compras/{id}(id=${associado.id})}" class="btn btn-primary" style="margin-top: 0px;">Adicionar Compra</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <a class="btn btn-danger" th:href="@{/pesquisar}">Voltar</a>
+                                </div>
+                            </div>    
+                            <div th:each="associado : ${associados}" class="card row" style="border-radius: 1rem; text-align: center;" th:if="${associado.situacao == 'BLOQUEADO'}">
+                                    <span style="font-size: larger; font-weight: bolder; color: red;">Entrar em contato no (62)3230-4614 ou wpp (62)98477-6718</span>
+                            </div>                        
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--<script>-->
+<!--    function mascaraCpf(mascara, input) {-->
+<!--    const vetMask = mascara.split("")-->
+<!--    const numCpf = input.value.replace(/\D/g, "")-->
+<!--    const cursor = input.selectionStart-->
+<!--    const tecla = (window.event) ? event.keyCode : event.which-->
+
+<!--    for (let i = 0; i < numCpf.length; i++) {-->
+<!--      vetMask.splice(vetMask.indexOf("_"), 1, numCpf[i])-->
+<!--    }-->
+<!--    input.value = vetMask.join("")-->
+<!--    if (tecla != 37 && (cursor == 3 || cursor == 7 || cursor == 11)) {-->
+<!--      input.setSelectionRange(cursor + 1, cursor + 1)-->
+<!--    } else {-->
+<!--      input.setSelectionRange(cursor, cursor)-->
+<!--    }-->
+<!--  }-->
+<!--</script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>

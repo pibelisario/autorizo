@@ -1,0 +1,37 @@
+section{
+    background-color: #042e7b;
+}
+
+.back {
+    width: 1600px;
+    height: 200px;
+}
+
+.container{
+    align-items: start;
+    margin-left: 150px;
+    margin-right: auto;
+}
+
+.containerr{
+
+    margin-right: auto;
+}
+
+.btn {
+    margin-top: 15px;
+}
+
+.label{
+    font-weight: bolder;
+}
+
+.liberado{
+    color: blue;
+    font-weight: bold;
+}
+
+.bloqueado{
+    color: red;
+    font-weight: bold;
+}
