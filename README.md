@@ -52,6 +52,7 @@ Aqui temos um exemplo de como o relatório e gerado e as informações contidas 
 - Spring Boot
 - JPA / Hibernate
 - Maven
+- Spring security
   
 ## Front end
 - thymeleaf
