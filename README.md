@@ -3,18 +3,17 @@
 
 # Sobre o projeto
 
-Eu tive a ideia de fazer a aplicação "Controle" a partir da necessidade da empresa a qual trabalho teve de fazer o monitoramento e controle de acesso de pessoas
-as dependências da empresa. Com essa aplicação é possível registrar as informações pessoais, data, horário e local em que a pessoa esteve na empresa. 
-Está aplicação atualmente esta em uso na empresa e tem sido de grande ajuda para o controle de acesso de pessoas. 
+Essa aplicação surgiu com objetivo de fazer um controle de compras dos associados na empresa a qual trabalho.
+ 
+A aplicação funciona da seguinte maneira: caso o associado esteja liberado para realizar uma compra, o responsável pelo sistema que no caso é alguma farmácia conveniada irá lançar a compra para o mesmo, caso esteja bloqueado ele irá informar ao associado que não é possível realizar a compra e que é necessário entrar em contato com a matriz para verificar o motivo. 
 
-Para facilitar para o usuário do sistema eu importei do banco de dados todos os associados e dependentes de outro sistema da empresa, assim sendo necessário 
-cadastrar novas pessoas somente em caso dele não ser associado e ser a primeira vez que ele vem à empresa.
+As informações referentes sobre o autorizo ou não para a compra são importadas mês a mês do banco de dados da matriz. Ao final de cada mês é gerado um relatório com todos os associados que fizeram compra e em qual farmácia foi realizada a compra, após isso e feito o lançamento no sistema interno da empresa para desconto em folha do associado.
 
 ## Layout web
 
-### Tela para adicionar entrada
+### Tela de login
 
-Nessa tela primeiramente o usuário do sistema deve buscar a pessoa que irá adentrar à empresa, a pesquisa pode ser feita por Rg, Nome e CPF. Caso seja a primeira vez da pessoa será necessário realizar o cadastro da mesma (verificar na tela de cadastro) e posteriormente buscar o cadastro e realizar a entrada, escolhendo o departamento em que ela irá.
+Cada farmácia conveniada possui um login especifico para acesso ao sistema. É necessário esse controle de acesso, pois como mencionado ao final de cada mês e gerado um relatório com todos os lançamentos feito pela farmácia.
 
 OBS: Nenhuma informação de pessoas reais foram utilizadas nas telas.
 
