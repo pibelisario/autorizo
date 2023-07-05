@@ -17,38 +17,33 @@ Cada farmácia conveniada possui um login especifico para acesso ao sistema. É 
 
 OBS: Nenhuma informação de pessoas reais foram utilizadas nas telas.
 
-![web 0](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20Adicionar%20Entrada.png?raw=true) 
+![web 0](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20Login.png?raw=true) 
 
-### Tela de visualização das últimas entradas
+### Tela de busca
 
-Nessa tela é possível verificar as últimas entradas feitas na empresa (tela possui paginação),
-nela e possível verificar informações pessoais, data/hora de entrada e o local em que a pessoa foi na empresa. Também e possível verificar os detalhes de cada pessoa que entrou clicando na opção detalhes (verificar na tela detalhes) ou até mesmo excluir alguma entrada.
+Nessa tela é feita a busca do associado pelo CPF, após a busca é aberta uma tela abaixo com as informações do associado, caso ele esteja liberado para compra o botão "Adicionar Compra" aparecera, caso contrario irá aparecer "BLOQUEADO".
 
-![web 1](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20de%20Entradas.png?raw=true) 
+![web 1](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20Busca.png?raw=true) 
 
-### Tela detalhes do cadastro
+### Tela adiconar compra
 
-Tela para visualizar informações pessoais sobre associado, dependente ou outros.
+Quando clicado no botão "Adicionar Compra" o sistema e redirecionado para esta tela. Essa tela permite que uma compra seja lançada, para tal ação é necessário digitar o valor e o cupom fiscal da compra, após isso "Lançar". Quando uma compra é lançada automaticamente o sistema já diminui o limite de compras do associado baseado no valor da compra, cada associado possui um limite mensal de compras não podendo ultrapassar o mesmo. 
 
-![web 2](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20Detalhes.png?raw=true)
+Logo abaixo temos o botão "Gerar Relatório" esse relatório traz o demostrativo de compras individuais de casa associado.
 
-### Tela cadastro novo
+![web 2](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20Compra.png?raw=true)
 
-Tela de cadastro
+### Tela administrativa
 
-![web 3](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20de%20Cadastro.png?raw=true)
+Nessa tela onde somente o administrador tem acesso é possível gerar o relatório de compras, onde o mesmo contem todas as compras realizadas em todas as farmácias contendo informações como, nome da farmácia, dados do associado e valor da compra.
 
-### Tela buscar cadastro
+![web 3](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20ADM.png?raw=true)
 
-Tela para buscar cadastro e caso necessário editar ou excluir
+### Relatório gerado
 
-![web 4](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20Buscar%20Cadastro.png?raw=true)
+Aqui temos um exemplo de como o relatório e gerado e as informações contidas nele.
 
-### Tela buscar entradas
-
-Nessa tela e possível fazer a busca de entradas entre as datas escolhidas.
-
-![web 5](https://github.com/pibelisario/controle/blob/dev1/assets/Tela%20Buscar%20Entradas.png?raw=true)
+![web 4](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Relatorio.png?raw=true)
 
 
 # Tecnologias utilizadas
