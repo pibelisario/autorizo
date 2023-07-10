@@ -15,8 +15,6 @@ As informações referentes sobre o autorizo ou não para a compra são importad
 
 Cada farmácia conveniada possui um login especifico para acesso ao sistema. É necessário esse controle de acesso, pois como mencionado ao final de cada mês e gerado um relatório com todos os lançamentos feito pela farmácia.
 
-OBS: Nenhuma informação de pessoas reais foram utilizadas nas telas.
-
 ![web 0](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20Login.png?raw=true) 
 
 ### Tela de busca
