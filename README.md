@@ -21,6 +21,8 @@ OBS: Nenhuma informação de pessoas reais foram utilizadas nas telas.
 
 ### Tela de busca
 
+##OBS: Nenhuma informação de pessoas reais foram utilizadas nas telas.##
+
 Nessa tela é feita a busca do associado pelo CPF, após a busca é aberta uma tela abaixo com as informações do associado, caso ele esteja liberado para compra o botão "Adicionar Compra" aparecera, caso contrario irá aparecer "BLOQUEADO".
 
 ![web 1](https://github.com/pibelisario/autorizo/blob/relatorioMensal/assets/Tela%20Busca.png?raw=true) 
